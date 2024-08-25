@@ -5,6 +5,8 @@ import { hashPassword } from './src/admins/utils/hashPassword';
 import { AdminEntity } from './src/entities/admin.entity';
 import { getRepositoryToken } from '@nestjs/typeorm';
 
+// Script pour initialiser l'Admin en BDD
+// ===========================================================================================
 async function setupAdmin() {
   try {
     console.log('Starting application context setup...');
