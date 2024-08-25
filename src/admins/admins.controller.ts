@@ -18,14 +18,18 @@ export class AdminsController {
   async login(@Body() loginAdminDto: LoginAdminDto): Promise<{
     success: boolean;
     message: string;
-    //token: string;
+    token: string;
     admin: { id: AdminEntity['id']; email: AdminEntity['email'] };
   }> {
     try {
+      // Connecte l'Admin
       const admin = await this.adminsService.loginAdmin(loginAdminDto);
+      // Génère le token
+      const token = admin.token;
       return {
         success: true,
         message: 'Successfully connected',
+        token: token,
         admin: {
           id: admin.id,
           email: admin.email,

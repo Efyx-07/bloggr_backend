@@ -8,13 +8,14 @@ import { AdminEntity } from 'src/entities/admin.entity';
 import { Repository } from 'typeorm';
 import LoginAdminDto from './admins-DTO/login-admin.dto';
 import { comparePasswords } from './utils/comparePassword';
+import { AuthService } from 'src/auth/auth.service';
 
 @Injectable()
 export class AdminsService {
   constructor(
     @InjectRepository(AdminEntity)
     private readonly adminRepository: Repository<AdminEntity>,
-    //private readonly authService: AuthService,
+    private readonly authService: AuthService,
   ) {}
 
   // Connecte l'Admin (avec email et password)
@@ -22,6 +23,7 @@ export class AdminsService {
   async loginAdmin(loginAdminDto: LoginAdminDto): Promise<{
     id: AdminEntity['id'];
     email: AdminEntity['email'];
+    token: string;
   }> {
     const { email, password } = loginAdminDto;
     // Retrouve l'Admin par son email
@@ -29,11 +31,11 @@ export class AdminsService {
     // Compare les passwords
     await comparePasswords(password, admin.password);
     // Genere un JWT token
-    //const token: string = this.authService.generateJWTToken(user.id);
+    const token: string = this.authService.generateJWTToken(admin.id);
     return {
       id: admin.id,
       email: admin.email,
-      //token,
+      token,
     };
   }
 
