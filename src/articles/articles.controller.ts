@@ -10,7 +10,7 @@ import {
 } from '@nestjs/common';
 import { ArticlesService } from './articles.service';
 import { ArticleEntriesDTO } from './articles-DTO/article-entries.dto';
-import { Article } from 'src/interfaces/article.interface';
+import { Article } from '../interfaces/article.interface';
 import { ArticleEntity } from '../entities/article.entity';
 
 @Controller('articles')

@@ -1,5 +1,5 @@
 import * as bcrypt from 'bcrypt';
-import { AdminEntity } from 'src/entities/admin.entity';
+import { AdminEntity } from '../../entities/admin.entity';
 
 export async function hashPassword(
   password: AdminEntity['password'],

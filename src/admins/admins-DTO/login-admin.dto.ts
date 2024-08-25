@@ -1,5 +1,5 @@
 import { IsEmail, IsString, MinLength } from 'class-validator';
-import { AdminEntity } from 'src/entities/admin.entity';
+import { AdminEntity } from '../../entities/admin.entity';
 
 export default class LoginAdminDto {
   @IsEmail({}, { message: 'Invalid email address' })
