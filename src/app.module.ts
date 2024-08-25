@@ -6,6 +6,7 @@ import { AppService } from './app.service';
 import { ArticlesModule } from './articles/articles.module';
 import { ArticleEntity } from './entities/article.entity';
 import { AdminsModule } from './admins/admins.module';
+import { AdminEntity } from './entities/admin.entity';
 
 @Module({
   imports: [
@@ -22,7 +23,7 @@ import { AdminsModule } from './admins/admins.module';
         username: configService.get<string>('DB_USERNAME'),
         password: configService.get<string>('DB_PASSWORD'),
         database: configService.get<string>('DB_NAME'),
-        entities: [ArticleEntity],
+        entities: [ArticleEntity, AdminEntity],
         synchronize: true, // disable in production
       }),
     }),
