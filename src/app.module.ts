@@ -8,6 +8,7 @@ import { ArticleEntity } from './entities/article.entity';
 import { AdminsModule } from './admins/admins.module';
 import { AdminEntity } from './entities/admin.entity';
 import { AuthModule } from './auth/auth.module';
+import { PasswordsModule } from './passwords/passwords.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { AuthModule } from './auth/auth.module';
     ArticlesModule,
     AdminsModule,
     AuthModule,
+    PasswordsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -2,7 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { Repository } from 'typeorm';
 import { AppModule } from './src/app.module';
 import { AdminEntity } from './src/entities/admin.entity';
-import { hashPassword } from './src/admins/utils/hashPassword';
+import { hashPassword } from './src/passwords/utils/hashPassword';
 import { getRepositoryToken } from '@nestjs/typeorm';
 
 // Initialise l'Admin en BDD

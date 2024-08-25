@@ -7,7 +7,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { AdminEntity } from '../entities/admin.entity';
 import { Repository } from 'typeorm';
 import LoginAdminDto from './admins-DTO/login-admin.dto';
-import { comparePasswords } from './utils/comparePassword';
+import { comparePasswords } from '../passwords/utils/comparePassword';
 import { AuthService } from '../auth/auth.service';
 
 @Injectable()
