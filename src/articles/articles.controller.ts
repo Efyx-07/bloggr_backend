@@ -60,7 +60,7 @@ export class ArticlesController {
     @Param('id') id: ArticleEntity['id'],
   ): Promise<{ message: string }> {
     try {
-      await this.articlesService.deleteArticle(id);
+      await this.articlesService.deleteArticleById(id);
       return { message: `Article ${id} successfully deleted` };
     } catch (error) {
       throw new InternalServerErrorException(

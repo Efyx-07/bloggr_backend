@@ -56,11 +56,11 @@ export class ArticlesService {
 
   // Met à jour un article par son ID
   // ===========================================================================================
-  async updateArticle() {}
+  async updateArticleById() {}
 
   // Supprime un article par son ID
   // ===========================================================================================
-  async deleteArticle(id: ArticleEntity['id']) {
+  async deleteArticleById(id: ArticleEntity['id']) {
     try {
       await this.articleRepository.delete(id);
     } catch (error) {
