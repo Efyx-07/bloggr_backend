@@ -24,16 +24,12 @@ export class AdminsService {
     email: AdminEntity['email'];
   }> {
     const { email, password } = loginAdminDto;
-
-    // Find user by email
+    // Retrouve l'Admin par son email
     const admin: AdminEntity = await this.findAdminByEmail(email);
-
-    // Compare the passwords
+    // Compare les passwords
     await comparePasswords(password, admin.password);
-
-    // Generate a JWT token
+    // Genere un JWT token
     //const token: string = this.authService.generateJWTToken(user.id);
-
     return {
       id: admin.id,
       email: admin.email,
@@ -43,7 +39,9 @@ export class AdminsService {
 
   // Retrouve l'Admin par son email
   // ===========================================================================================
-  async findAdminByEmail(email: AdminEntity['email']): Promise<AdminEntity> {
+  private async findAdminByEmail(
+    email: AdminEntity['email'],
+  ): Promise<AdminEntity> {
     try {
       const admin: AdminEntity = await this.adminRepository.findOne({
         where: { email: email },
