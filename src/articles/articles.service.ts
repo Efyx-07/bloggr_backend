@@ -1,7 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ArticleEntity } from 'src/entities/article.entity';
 import { Repository } from 'typeorm';
+import CreateArticleDTO from './articles-DTO/create-article.dto';
+import { Article } from 'src/interfaces/article.interface';
 
 @Injectable()
 export class ArticlesService {
@@ -12,7 +14,32 @@ export class ArticlesService {
 
   // Crée un nouvel article
   // ===========================================================================================
-  async createArticle() {}
+  async createArticle(
+    createArticleDTO: CreateArticleDTO,
+  ): Promise<{ article: Article }> {
+    const { title, imageUrl, body } = createArticleDTO;
+    try {
+      const newArticle: ArticleEntity = this.articleRepository.create({
+        title,
+        imageUrl,
+        body,
+      });
+      const result = await this.articleRepository.save(newArticle);
+      return {
+        article: {
+          id: result.id,
+          title: result.title,
+          imageUrl: result.imageUrl,
+          body: result.body,
+          creationDate: result.creationDate,
+        },
+      };
+    } catch (error) {
+      throw new InternalServerErrorException(
+        'Error while creating article: ' + error.message,
+      );
+    }
+  }
 
   // Récupère tous les articles
   // ===========================================================================================

@@ -1,11 +1,36 @@
-import { Controller, Delete, Get, Post, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  InternalServerErrorException,
+  Post,
+  Put,
+} from '@nestjs/common';
+import { ArticlesService } from './articles.service';
+import CreateArticleDTO from './articles-DTO/create-article.dto';
+import { Article } from 'src/interfaces/article.interface';
 
 @Controller('articles')
 export class ArticlesController {
+  constructor(private readonly articlesService: ArticlesService) {}
+
   // Crée un nouvel article - endpoint .../articles/create-article
   // ===========================================================================================
   @Post('create-article')
-  async createArticle() {}
+  async createArticle(
+    @Body() createArticleDTO: CreateArticleDTO,
+  ): Promise<{ message: string; article: Article }> {
+    try {
+      const { article } =
+        await this.articlesService.createArticle(createArticleDTO);
+      return { message: 'Article succesfully created', article };
+    } catch (error) {
+      throw new InternalServerErrorException(
+        'Error while creating article' + error.message,
+      );
+    }
+  }
 
   // Récupère tous les articles - endpoint .../articles
   // ===========================================================================================
