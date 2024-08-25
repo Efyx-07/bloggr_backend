@@ -58,7 +58,15 @@ export class ArticlesService {
   // ===========================================================================================
   async updateArticle() {}
 
-  // Supprime un article
+  // Supprime un article par son ID
   // ===========================================================================================
-  async deleteArticle() {}
+  async deleteArticle(id: ArticleEntity['id']) {
+    try {
+      await this.articleRepository.delete(id);
+    } catch (error) {
+      throw new InternalServerErrorException(
+        'Error while deleting article' + error.message,
+      );
+    }
+  }
 }

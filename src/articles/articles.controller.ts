@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   InternalServerErrorException,
+  Param,
   Post,
   Put,
 } from '@nestjs/common';
@@ -55,5 +56,16 @@ export class ArticlesController {
   // Supprime un article par son ID - endpoint .../articles/id
   // ===========================================================================================
   @Delete(':id')
-  async deleteArticle() {}
+  async deleteArticle(
+    @Param('id') id: ArticleEntity['id'],
+  ): Promise<{ message: string }> {
+    try {
+      await this.articlesService.deleteArticle(id);
+      return { message: `Article ${id} successfully deleted` };
+    } catch (error) {
+      throw new InternalServerErrorException(
+        'Error while deleting article' + error.message,
+      );
+    }
+  }
 }
