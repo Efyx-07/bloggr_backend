@@ -1,7 +1,7 @@
 import { IsNotEmpty, IsString } from 'class-validator';
 import { ArticleEntity } from 'src/entities/article.entity';
 
-export default class CreateArticleDTO {
+export class ArticleEntriesDTO {
   @IsString()
   @IsNotEmpty()
   title: ArticleEntity['title'];

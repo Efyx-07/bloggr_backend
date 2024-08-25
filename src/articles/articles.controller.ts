@@ -9,7 +9,7 @@ import {
   Put,
 } from '@nestjs/common';
 import { ArticlesService } from './articles.service';
-import CreateArticleDTO from './articles-DTO/create-article.dto';
+import { ArticleEntriesDTO } from './articles-DTO/article-entries.dto';
 import { Article } from 'src/interfaces/article.interface';
 import { ArticleEntity } from 'src/entities/article.entity';
 
@@ -21,11 +21,11 @@ export class ArticlesController {
   // ===========================================================================================
   @Post('create-article')
   async createArticle(
-    @Body() createArticleDTO: CreateArticleDTO,
+    @Body() articleEntriesDTO: ArticleEntriesDTO,
   ): Promise<{ message: string; article: Article }> {
     try {
       const { article } =
-        await this.articlesService.createArticle(createArticleDTO);
+        await this.articlesService.createArticle(articleEntriesDTO);
       return { message: 'Article succesfully created', article };
     } catch (error) {
       throw new InternalServerErrorException(
@@ -51,7 +51,19 @@ export class ArticlesController {
   // Met à jour un article par son ID - endpoint .../articles/id
   // ===========================================================================================
   @Put(':id')
-  async updateArticle() {}
+  async updateArticle(
+    @Param('id') id: ArticleEntity['id'],
+    @Body() articleEntriesDTO: ArticleEntriesDTO,
+  ): Promise<{ message: string }> {
+    try {
+      await this.articlesService.updateArticleById(id, articleEntriesDTO);
+      return { message: `Article ${id} successfully updated` };
+    } catch (error) {
+      throw new InternalServerErrorException(
+        'Error while updating article' + error.message,
+      );
+    }
+  }
 
   // Supprime un article par son ID - endpoint .../articles/id
   // ===========================================================================================

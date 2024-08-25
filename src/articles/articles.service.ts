@@ -2,7 +2,7 @@ import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ArticleEntity } from 'src/entities/article.entity';
 import { Repository } from 'typeorm';
-import CreateArticleDTO from './articles-DTO/create-article.dto';
+import { ArticleEntriesDTO } from './articles-DTO/article-entries.dto';
 import { Article } from 'src/interfaces/article.interface';
 
 @Injectable()
@@ -15,9 +15,9 @@ export class ArticlesService {
   // Crée un nouvel article
   // ===========================================================================================
   async createArticle(
-    createArticleDTO: CreateArticleDTO,
+    articleEntriesDTO: ArticleEntriesDTO,
   ): Promise<{ article: Article }> {
-    const { title, imageUrl, body } = createArticleDTO;
+    const { title, imageUrl, body } = articleEntriesDTO;
     try {
       const newArticle: ArticleEntity = this.articleRepository.create({
         title,
@@ -57,11 +57,41 @@ export class ArticlesService {
 
   // Met à jour un article par son ID
   // ===========================================================================================
-  async updateArticleById() {}
+  async updateArticleById(
+    id: ArticleEntity['id'],
+    articleEntriesDTO: ArticleEntriesDTO,
+  ): Promise<void> {
+    try {
+      await this.articleRepository.update(id, articleEntriesDTO);
+      // Met à jour last update après chaque modification de l'article
+      await this.updateLastUpdateAfterHandling(id);
+    } catch (error) {
+      throw new InternalServerErrorException(
+        'Error while updating article' + error.message,
+      );
+    }
+  }
+
+  // Met à jour la date de mise à jour après chaque modification de l'article
+  // ===========================================================================================
+  private async updateLastUpdateAfterHandling(
+    id: ArticleEntity['id'],
+  ): Promise<void> {
+    try {
+      await this.articleRepository.update(
+        { id: id },
+        { lastUpdate: new Date() },
+      );
+    } catch (error) {
+      throw new InternalServerErrorException(
+        'Error updating last update' + error.message,
+      );
+    }
+  }
 
   // Supprime un article par son ID
   // ===========================================================================================
-  async deleteArticleById(id: ArticleEntity['id']) {
+  async deleteArticleById(id: ArticleEntity['id']): Promise<void> {
     try {
       await this.articleRepository.delete(id);
     } catch (error) {
