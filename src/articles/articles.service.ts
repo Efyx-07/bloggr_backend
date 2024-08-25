@@ -43,7 +43,16 @@ export class ArticlesService {
 
   // Récupère tous les articles
   // ===========================================================================================
-  async getArticles() {}
+  async getArticles(): Promise<ArticleEntity[]> {
+    try {
+      const articles = await this.articleRepository.find();
+      return articles;
+    } catch (error) {
+      throw new InternalServerErrorException(
+        'Error fetching articles' + error.message,
+      );
+    }
+  }
 
   // Met à jour un article par son ID
   // ===========================================================================================

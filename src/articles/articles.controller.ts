@@ -10,6 +10,7 @@ import {
 import { ArticlesService } from './articles.service';
 import CreateArticleDTO from './articles-DTO/create-article.dto';
 import { Article } from 'src/interfaces/article.interface';
+import { ArticleEntity } from 'src/entities/article.entity';
 
 @Controller('articles')
 export class ArticlesController {
@@ -35,7 +36,16 @@ export class ArticlesController {
   // Récupère tous les articles - endpoint .../articles
   // ===========================================================================================
   @Get()
-  async getArticles() {}
+  async getArticles(): Promise<ArticleEntity[]> {
+    try {
+      const articles = await this.articlesService.getArticles();
+      return articles;
+    } catch (error) {
+      throw new InternalServerErrorException(
+        'Error fetching articles' + error.message,
+      );
+    }
+  }
 
   // Met à jour un article par son ID - endpoint .../articles/id
   // ===========================================================================================
