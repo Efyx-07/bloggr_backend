@@ -3,6 +3,7 @@ import {
   CreateDateColumn,
   Entity,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 
 @Entity('articles')
@@ -24,4 +25,10 @@ export class ArticleEntity {
     name: 'creation_date',
   })
   creationDate: Date;
+
+  @UpdateDateColumn({
+    type: 'timestamp',
+    name: 'last_update',
+  })
+  lastUpdate: Date;
 }

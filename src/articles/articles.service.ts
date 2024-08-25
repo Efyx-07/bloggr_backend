@@ -32,6 +32,7 @@ export class ArticlesService {
           imageUrl: result.imageUrl,
           body: result.body,
           creationDate: result.creationDate,
+          lastUpdate: result.lastUpdate,
         },
       };
     } catch (error) {
