@@ -58,4 +58,22 @@ export class AdminsService {
       );
     }
   }
+
+  // Retrouve l'Admin par son ID
+  // ===========================================================================================
+  async findAdminById(adminId: AdminEntity['id']): Promise<AdminEntity> {
+    try {
+      const admin: AdminEntity = await this.adminRepository.findOne({
+        where: { id: adminId },
+      });
+      if (!admin) {
+        throw new NotFoundException('User not found');
+      }
+      return admin;
+    } catch (error) {
+      throw new InternalServerErrorException(
+        'No admin found: ' + error.message,
+      );
+    }
+  }
 }
