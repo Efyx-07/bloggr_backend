@@ -1,6 +1,6 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ArticleEntity } from 'src/entities/article.entity';
+import { ArticleEntity } from '../entities/article.entity';
 import { Repository } from 'typeorm';
 import { ArticleEntriesDTO } from './articles-DTO/article-entries.dto';
 import { Article } from 'src/interfaces/article.interface';

@@ -4,11 +4,11 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { AdminEntity } from 'src/entities/admin.entity';
+import { AdminEntity } from '../entities/admin.entity';
 import { Repository } from 'typeorm';
 import LoginAdminDto from './admins-DTO/login-admin.dto';
 import { comparePasswords } from './utils/comparePassword';
-import { AuthService } from 'src/auth/auth.service';
+import { AuthService } from '../auth/auth.service';
 
 @Injectable()
 export class AdminsService {

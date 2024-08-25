@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { AdminsService } from './admins.service';
 import LoginAdminDto from './admins-DTO/login-admin.dto';
-import { AdminEntity } from 'src/entities/admin.entity';
+import { AdminEntity } from '../entities/admin.entity';
 
 @Controller('admins')
 export class AdminsController {
