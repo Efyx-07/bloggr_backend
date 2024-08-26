@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import UpdatePasswordDto from './passwords-DTO/update-passwords.dto';
 import { AdminEntity } from '../entities/admin.entity';
 import { hashPassword } from './utils/hashPassword';
@@ -35,7 +35,9 @@ export class PasswordsService {
         password: hashedNewPassword,
       });
     } catch (error) {
-      throw new Error('Error while updating password: ' + error.message);
+      throw new InternalServerErrorException(
+        'Error while updating password: ' + error.message,
+      );
     }
   }
 }
