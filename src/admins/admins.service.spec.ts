@@ -7,11 +7,10 @@ import { Repository } from 'typeorm';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { comparePasswords } from '../passwords/utils/comparePassword';
 import {
-  //NotFoundException,
+  NotFoundException,
   InternalServerErrorException,
 } from '@nestjs/common';
 
-// Mock for comparePasswords
 jest.mock('../passwords/utils/comparePassword', () => ({
   comparePasswords: jest.fn(),
 }));
@@ -62,12 +61,10 @@ describe('AdminsService', () => {
         id: 1,
         email: 'email@example.com',
         password: 'hashedPassword',
-        // Include other properties if necessary
       } as AdminEntity;
 
       const token = 'mockToken';
 
-      // Mock repository and method returns
       jest.spyOn(adminRepository, 'findOne').mockResolvedValue(admin);
       (comparePasswords as jest.Mock).mockResolvedValue(true);
       jest.spyOn(authService, 'generateJWTToken').mockReturnValue(token);
@@ -81,38 +78,20 @@ describe('AdminsService', () => {
       });
     });
 
-    /*
     it('should throw NotFoundException if admin is not found', async () => {
       const dto: LoginAdminDto = {
         email: 'email@example.com',
         password: 'password',
       };
 
-      // Mock de findOne pour renvoyer null
       jest.spyOn(adminRepository, 'findOne').mockResolvedValue(null);
 
-      // On teste que l'appel de loginAdmin renvoie l'exception attendue
       await expect(adminsService.loginAdmin(dto)).rejects.toThrow(
-        new NotFoundException('User not found'),
-      );
-    });*/
-
-    it('should throw InternalServerErrorException if findAdminByEmail fails', async () => {
-      const dto: LoginAdminDto = {
-        email: 'email@example.com',
-        password: 'password',
-      };
-
-      jest
-        .spyOn(adminRepository, 'findOne')
-        .mockRejectedValue(new Error('Database error'));
-
-      await expect(adminsService.loginAdmin(dto)).rejects.toThrow(
-        InternalServerErrorException,
+        NotFoundException,
       );
     });
 
-    /*it('should throw an error if comparePasswords fails', async () => {
+    it('should throw an error if comparePasswords fails', async () => {
       const dto: LoginAdminDto = {
         email: 'email@example.com',
         password: 'password',
@@ -122,15 +101,18 @@ describe('AdminsService', () => {
         id: 1,
         email: 'email@example.com',
         password: 'hashedPassword',
-        // Include other properties if necessary
       } as AdminEntity;
 
       jest.spyOn(adminRepository, 'findOne').mockResolvedValue(admin);
-      (comparePasswords as jest.Mock).mockResolvedValue(true);
+
+      const error = new InternalServerErrorException(
+        'Error during password comparison',
+      );
+      (comparePasswords as jest.Mock).mockRejectedValue(error);
 
       await expect(adminsService.loginAdmin(dto)).rejects.toThrow(
         InternalServerErrorException,
       );
-    });*/
+    });
   });
 });

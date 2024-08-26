@@ -1,8 +1,4 @@
-import {
-  Injectable,
-  InternalServerErrorException,
-  NotFoundException,
-} from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { AdminEntity } from '../entities/admin.entity';
 import { Repository } from 'typeorm';
@@ -44,36 +40,24 @@ export class AdminsService {
   private async findAdminByEmail(
     email: AdminEntity['email'],
   ): Promise<AdminEntity> {
-    try {
-      const admin: AdminEntity = await this.adminRepository.findOne({
-        where: { email: email },
-      });
-      if (!admin) {
-        throw new NotFoundException('User not found');
-      }
-      return admin;
-    } catch (error) {
-      throw new InternalServerErrorException(
-        'No admin found: ' + error.message,
-      );
+    const admin: AdminEntity = await this.adminRepository.findOne({
+      where: { email: email },
+    });
+    if (!admin) {
+      throw new NotFoundException('User not found');
     }
+    return admin;
   }
 
   // Retrouve l'Admin par son ID
   // ===========================================================================================
   async findAdminById(adminId: AdminEntity['id']): Promise<AdminEntity> {
-    try {
-      const admin: AdminEntity = await this.adminRepository.findOne({
-        where: { id: adminId },
-      });
-      if (!admin) {
-        throw new NotFoundException('User not found');
-      }
-      return admin;
-    } catch (error) {
-      throw new InternalServerErrorException(
-        'No admin found: ' + error.message,
-      );
+    const admin: AdminEntity = await this.adminRepository.findOne({
+      where: { id: adminId },
+    });
+    if (!admin) {
+      throw new NotFoundException('User not found');
     }
+    return admin;
   }
 }
