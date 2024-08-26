@@ -4,7 +4,7 @@ import { AdminsService } from '../admins/admins.service';
 import { AdminEntity } from '../entities/admin.entity';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { comparePasswords } from './utils/comparePassword'; // Import correct
+import { comparePasswords } from './utils/comparePassword';
 import { hashPassword } from './utils/hashPassword';
 import UpdatePasswordDto from './passwords-DTO/update-passwords.dto';
 import { InternalServerErrorException } from '@nestjs/common';
