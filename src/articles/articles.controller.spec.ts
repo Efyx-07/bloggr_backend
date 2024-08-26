@@ -33,6 +33,8 @@ describe('ArticlesController', () => {
     expect(articlesController).toBeDefined();
   });
 
+  // Test - createArticle
+  // ===========================================================================================
   describe('createArticle', () => {
     it('should return a success message and article details', async () => {
       const articleEntriesDTO: ArticleEntriesDTO = {
@@ -63,6 +65,8 @@ describe('ArticlesController', () => {
     });
   });
 
+  // Test - getArticle
+  // ===========================================================================================
   describe('get-article', () => {
     it('should return an array of all the articles', async () => {
       const mockArticles: ArticleEntity[] = [
