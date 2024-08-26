@@ -3,6 +3,7 @@ import { ArticlesController } from './articles.controller';
 import { ArticlesService } from './articles.service';
 import { ArticleEntriesDTO } from './articles-DTO/article-entries.dto';
 import { ArticleEntity } from '../entities/article.entity';
+import { InternalServerErrorException } from '@nestjs/common';
 
 describe('ArticlesController', () => {
   let articlesController: ArticlesController;
@@ -59,6 +60,49 @@ describe('ArticlesController', () => {
         message: 'Article succesfully created',
         article: mockArticle,
       });
+    });
+  });
+
+  describe('get-article', () => {
+    it('should return an array of all the articles', async () => {
+      const mockArticles: ArticleEntity[] = [
+        {
+          id: 1,
+          title: 'Article 1',
+          imageUrl: 'url1',
+          body: 'body1',
+          creationDate: new Date(),
+          lastUpdate: new Date(),
+        },
+        {
+          id: 2,
+          title: 'Article 2',
+          imageUrl: 'url2',
+          body: 'body2',
+          creationDate: new Date(),
+          lastUpdate: new Date(),
+        },
+      ];
+
+      jest
+        .spyOn(articlesService, 'getArticles')
+        .mockResolvedValue(mockArticles);
+
+      const result = await articlesController.getArticles();
+
+      expect(result).toEqual(mockArticles);
+    });
+
+    it('should throw InternalServerErrorException on error', async () => {
+      jest
+        .spyOn(articlesService, 'getArticles')
+        .mockRejectedValue(new Error('Database error'));
+
+      await expect(articlesController.getArticles()).rejects.toThrow(
+        new InternalServerErrorException(
+          'Error fetching articlesDatabase error',
+        ),
+      );
     });
   });
 });
