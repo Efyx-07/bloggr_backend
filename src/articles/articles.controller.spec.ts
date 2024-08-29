@@ -109,4 +109,22 @@ describe('ArticlesController', () => {
       );
     });
   });
+
+  // Test - deleteArticle
+  // ===========================================================================================
+  describe('deleteArticle', () => {
+    it('should return a message of succes after a successful deleting of an article', async () => {
+      const mockArticleId: ArticleEntity['id'] = 1;
+
+      jest
+        .spyOn(articlesService, 'deleteArticleById')
+        .mockResolvedValue(undefined);
+
+      const result = await articlesController.deleteArticle(mockArticleId);
+
+      expect(result).toEqual({
+        message: `Article ${mockArticleId} successfully deleted`,
+      });
+    });
+  });
 });
