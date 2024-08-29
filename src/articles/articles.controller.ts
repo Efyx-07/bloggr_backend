@@ -29,7 +29,7 @@ export class ArticlesController {
       return { message: 'Article succesfully created', article };
     } catch (error) {
       throw new InternalServerErrorException(
-        'Error while creating article' + error.message,
+        'Error while creating article: ' + error.message,
       );
     }
   }
@@ -43,7 +43,7 @@ export class ArticlesController {
       return articles;
     } catch (error) {
       throw new InternalServerErrorException(
-        'Error fetching articles' + error.message,
+        'Error while fetching articles: ' + error.message,
       );
     }
   }
@@ -60,7 +60,7 @@ export class ArticlesController {
       return { message: `Article ${id} successfully updated` };
     } catch (error) {
       throw new InternalServerErrorException(
-        'Error while updating article' + error.message,
+        'Error while updating article: ' + error.message,
       );
     }
   }
@@ -76,7 +76,7 @@ export class ArticlesController {
       return { message: `Article ${id} successfully deleted` };
     } catch (error) {
       throw new InternalServerErrorException(
-        'Error while deleting article' + error.message,
+        'Error while deleting article: ' + error.message,
       );
     }
   }

@@ -36,13 +36,13 @@ describe('ArticlesController', () => {
   // Test - createArticle
   // ===========================================================================================
   describe('createArticle', () => {
-    it('should return a success message and article details', async () => {
-      const articleEntriesDTO: ArticleEntriesDTO = {
-        title: 'title',
-        imageUrl: 'imageUrl',
-        body: 'body',
-      };
+    const articleEntriesDTO: ArticleEntriesDTO = {
+      title: 'title',
+      imageUrl: 'imageUrl',
+      body: 'body',
+    };
 
+    it('should return a success message and article details', async () => {
       const mockArticle: ArticleEntity = {
         id: 1,
         title: articleEntriesDTO.title,
@@ -62,6 +62,22 @@ describe('ArticlesController', () => {
         message: 'Article succesfully created',
         article: mockArticle,
       });
+    });
+
+    it('should throw InternalServerErrorException on error', async () => {
+      const errorMessage = 'Database error';
+
+      jest
+        .spyOn(articlesService, 'createArticle')
+        .mockRejectedValue(new Error(errorMessage));
+
+      await expect(
+        articlesController.createArticle(articleEntriesDTO),
+      ).rejects.toThrow(
+        new InternalServerErrorException(
+          `Error while creating article: ${errorMessage}`,
+        ),
+      );
     });
   });
 
@@ -98,13 +114,14 @@ describe('ArticlesController', () => {
     });
 
     it('should throw InternalServerErrorException on error', async () => {
+      const errorMessage = 'Database error';
       jest
         .spyOn(articlesService, 'getArticles')
-        .mockRejectedValue(new Error('Database error'));
+        .mockRejectedValue(new Error(errorMessage));
 
       await expect(articlesController.getArticles()).rejects.toThrow(
         new InternalServerErrorException(
-          'Error fetching articlesDatabase error',
+          `Error while fetching articles: ${errorMessage}`,
         ),
       );
     });
@@ -113,22 +130,22 @@ describe('ArticlesController', () => {
   // Test - updateArticle
   // ===========================================================================================
   describe('update-article', () => {
+    const articleEntriesDTO: ArticleEntriesDTO = {
+      title: 'title',
+      imageUrl: 'imageUrl',
+      body: 'body',
+    };
+
+    const mockArticle: ArticleEntity = {
+      id: 1,
+      title: articleEntriesDTO.title,
+      imageUrl: articleEntriesDTO.imageUrl,
+      body: articleEntriesDTO.body,
+      creationDate: new Date(),
+      lastUpdate: new Date(),
+    };
+
     it('should return a success message after a successfully updating of an article', async () => {
-      const articleEntriesDTO: ArticleEntriesDTO = {
-        title: 'title',
-        imageUrl: 'imageUrl',
-        body: 'body',
-      };
-
-      const mockArticle: ArticleEntity = {
-        id: 1,
-        title: articleEntriesDTO.title,
-        imageUrl: articleEntriesDTO.imageUrl,
-        body: articleEntriesDTO.body,
-        creationDate: new Date(),
-        lastUpdate: new Date(),
-      };
-
       jest
         .spyOn(articlesService, 'updateArticleById')
         .mockResolvedValue(undefined);
@@ -142,14 +159,29 @@ describe('ArticlesController', () => {
         message: `Article ${mockArticle.id} successfully updated`,
       });
     });
+
+    it('should throw InternalServerErrorException on error', async () => {
+      const errorMessage = 'Database error';
+      jest
+        .spyOn(articlesService, 'updateArticleById')
+        .mockRejectedValue(new Error(errorMessage));
+
+      await expect(
+        articlesController.updateArticle(mockArticle.id, articleEntriesDTO),
+      ).rejects.toThrow(
+        new InternalServerErrorException(
+          `Error while updating article: ${errorMessage}`,
+        ),
+      );
+    });
   });
 
   // Test - deleteArticle
   // ===========================================================================================
   describe('deleteArticle', () => {
-    it('should return a success message after a successful deleting of an article', async () => {
-      const mockArticleId: ArticleEntity['id'] = 1;
+    const mockArticleId: ArticleEntity['id'] = 1;
 
+    it('should return a success message after a successful deleting of an article', async () => {
       jest
         .spyOn(articlesService, 'deleteArticleById')
         .mockResolvedValue(undefined);
@@ -159,6 +191,21 @@ describe('ArticlesController', () => {
       expect(result).toEqual({
         message: `Article ${mockArticleId} successfully deleted`,
       });
+    });
+
+    it('should throw InternalServerErrorException on error', async () => {
+      const errorMessage = 'Database error';
+      jest
+        .spyOn(articlesService, 'deleteArticleById')
+        .mockRejectedValue(new Error(errorMessage));
+
+      await expect(
+        articlesController.deleteArticle(mockArticleId),
+      ).rejects.toThrow(
+        new InternalServerErrorException(
+          `Error while deleting article: ${errorMessage}`,
+        ),
+      );
     });
   });
 });
