@@ -67,7 +67,7 @@ describe('ArticlesController', () => {
 
   // Test - getArticle
   // ===========================================================================================
-  describe('get-article', () => {
+  describe('get-articles', () => {
     it('should return an array of all the articles', async () => {
       const mockArticles: ArticleEntity[] = [
         {
@@ -110,10 +110,44 @@ describe('ArticlesController', () => {
     });
   });
 
+  // Test - updateArticle
+  // ===========================================================================================
+  describe('update-article', () => {
+    it('should return a success message after a successfully updating of an article', async () => {
+      const articleEntriesDTO: ArticleEntriesDTO = {
+        title: 'title',
+        imageUrl: 'imageUrl',
+        body: 'body',
+      };
+
+      const mockArticle: ArticleEntity = {
+        id: 1,
+        title: articleEntriesDTO.title,
+        imageUrl: articleEntriesDTO.imageUrl,
+        body: articleEntriesDTO.body,
+        creationDate: new Date(),
+        lastUpdate: new Date(),
+      };
+
+      jest
+        .spyOn(articlesService, 'updateArticleById')
+        .mockResolvedValue(undefined);
+
+      const result = await articlesController.updateArticle(
+        mockArticle.id,
+        articleEntriesDTO,
+      );
+
+      expect(result).toEqual({
+        message: `Article ${mockArticle.id} successfully updated`,
+      });
+    });
+  });
+
   // Test - deleteArticle
   // ===========================================================================================
   describe('deleteArticle', () => {
-    it('should return a message of succes after a successful deleting of an article', async () => {
+    it('should return a success message after a successful deleting of an article', async () => {
       const mockArticleId: ArticleEntity['id'] = 1;
 
       jest
