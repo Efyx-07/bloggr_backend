@@ -174,4 +174,33 @@ describe('ArticlesService', () => {
       );
     });
   });
+
+  // Test - deleteArticleById
+  // ===========================================================================================
+  describe('deleteArticleById', () => {
+    const articleId: ArticleEntity['id'] = 1;
+
+    it('should delete an article', async () => {
+      jest.spyOn(articlesRepository, 'delete').mockResolvedValue(undefined);
+
+      await articlesService.deleteArticleById(articleId);
+
+      expect(articlesRepository.delete).toHaveBeenCalledWith(articleId);
+    });
+
+    it('should throw InternalServerErrorException on error', async () => {
+      const errorMessage = 'Database error';
+      jest
+        .spyOn(articlesRepository, 'delete')
+        .mockRejectedValue(new Error(errorMessage));
+
+      await expect(
+        articlesService.deleteArticleById(articleId),
+      ).rejects.toThrow(
+        new InternalServerErrorException(
+          `Error while deleting article: ${errorMessage}`,
+        ),
+      );
+    });
+  });
 });

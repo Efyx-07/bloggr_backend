@@ -96,7 +96,7 @@ export class ArticlesService {
       await this.articleRepository.delete(id);
     } catch (error) {
       throw new InternalServerErrorException(
-        'Error while deleting article' + error.message,
+        'Error while deleting article: ' + error.message,
       );
     }
   }
