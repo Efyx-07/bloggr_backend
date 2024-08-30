@@ -50,6 +50,8 @@ describe('AdminsService', () => {
     expect(adminsService).toBeDefined();
   });
 
+  // Test - loginAdmin
+  // ===========================================================================================
   describe('loginAdmin', () => {
     it('should login the admin and return its id, email and a token', async () => {
       const dto: LoginAdminDto = {

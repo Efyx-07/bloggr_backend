@@ -7,13 +7,13 @@ import { JwtPayload } from '../interfaces/jwt-payload.interface';
 export class AuthService {
   constructor(private readonly jwtService: JwtService) {}
 
-  // Generate a token
+  // Génère un token
   // ===========================================================================================
   generateJWTToken(adminId: AdminEntity['id']): string {
     return this.jwtService.sign({ adminId });
   }
 
-  // Verify a token
+  // Vérifie le token
   // ===========================================================================================
   verifyJWTToken(token: string): any {
     try {

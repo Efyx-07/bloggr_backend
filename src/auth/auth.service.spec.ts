@@ -28,6 +28,8 @@ describe('AuthService', () => {
     expect(authService).toBeDefined();
   });
 
+  // Test - generateJWTToken
+  // ===========================================================================================
   describe('generateJWTToken', () => {
     it('should generate a token', async () => {
       const mockToken = 'mockedToken';
@@ -40,6 +42,8 @@ describe('AuthService', () => {
     });
   });
 
+  // Test - verifyJWTToken
+  // ===========================================================================================
   describe('verifyJWTToken', () => {
     it('should verify token', async () => {
       const mockPayload = { adminId: 1 };

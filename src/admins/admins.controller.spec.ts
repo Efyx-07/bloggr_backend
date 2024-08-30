@@ -29,6 +29,8 @@ describe('AdminsController', () => {
     expect(adminsController).toBeDefined();
   });
 
+  // Test - login
+  // ===========================================================================================
   describe('login', () => {
     it('should return success response with token and admin details on successful login', async () => {
       const loginAdminDto: LoginAdminDto = {

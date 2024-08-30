@@ -14,20 +14,18 @@ export class PasswordsService {
     private readonly adminRepository: Repository<AdminEntity>,
     private readonly adminsService: AdminsService,
   ) {}
-  // Update user password by id
+
+  // Met à jour le mot de passe de l'Admin avec son ID
   // ===========================================================================================
   async updateAdminPasswordById(
     updatePasswordDto: UpdatePasswordDto,
   ): Promise<void> {
     const { adminId, currentPassword, newPassword } = updatePasswordDto;
 
-    // Get user by id
     const admin: AdminEntity = await this.adminsService.findAdminById(adminId);
 
-    // Check if current password and hashed password match
     await comparePasswords(currentPassword, admin.password);
 
-    // Hash the new password
     const hashedNewPassword: string = await hashPassword(newPassword);
 
     try {

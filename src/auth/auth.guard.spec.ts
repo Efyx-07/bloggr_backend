@@ -6,6 +6,8 @@ import {
   ForbiddenException,
 } from '@nestjs/common';
 
+// Test - canActivate
+// ===========================================================================================
 describe('AuthGuard', () => {
   let authGuard: AuthGuard;
   let jwtService: JwtService;

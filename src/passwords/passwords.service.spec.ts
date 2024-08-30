@@ -50,6 +50,8 @@ describe('PasswordsService', () => {
     expect(passwordsService).toBeDefined();
   });
 
+  // Test - updateAdminPasswordById
+  // ===========================================================================================
   describe('updateAdminPasswordById', () => {
     it('should update the password successfully', async () => {
       const dto = new UpdatePasswordDto();
