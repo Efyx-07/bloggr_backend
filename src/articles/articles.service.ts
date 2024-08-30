@@ -50,7 +50,7 @@ export class ArticlesService {
       return articles;
     } catch (error) {
       throw new InternalServerErrorException(
-        'Error fetching articles' + error.message,
+        'Error while fetching articles: ' + error.message,
       );
     }
   }
@@ -67,14 +67,14 @@ export class ArticlesService {
       await this.updateLastUpdateAfterHandling(id);
     } catch (error) {
       throw new InternalServerErrorException(
-        'Error while updating article' + error.message,
+        'Error while updating article: ' + error.message,
       );
     }
   }
 
   // Met à jour la date de mise à jour après chaque modification de l'article
   // ===========================================================================================
-  private async updateLastUpdateAfterHandling(
+  public async updateLastUpdateAfterHandling(
     id: ArticleEntity['id'],
   ): Promise<void> {
     try {
