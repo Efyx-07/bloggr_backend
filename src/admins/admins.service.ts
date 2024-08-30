@@ -19,6 +19,8 @@ export class AdminsService {
   async loginAdmin(loginAdminDto: LoginAdminDto): Promise<{
     id: AdminEntity['id'];
     email: AdminEntity['email'];
+    firstName: AdminEntity['firstName'];
+    lastName: AdminEntity['lastName'];
     token: string;
   }> {
     const { email, password } = loginAdminDto;
@@ -31,6 +33,8 @@ export class AdminsService {
     return {
       id: admin.id,
       email: admin.email,
+      firstName: admin.firstName,
+      lastName: admin.lastName,
       token,
     };
   }

@@ -53,7 +53,7 @@ describe('AdminsService', () => {
   // Test - loginAdmin
   // ===========================================================================================
   describe('loginAdmin', () => {
-    it('should login the admin and return its id, email and a token', async () => {
+    it('should login the admin and return admin details and a token', async () => {
       const dto: LoginAdminDto = {
         email: 'email@example.com',
         password: 'password',
@@ -62,6 +62,8 @@ describe('AdminsService', () => {
       const admin: AdminEntity = {
         id: 1,
         email: 'email@example.com',
+        firstName: 'firstName',
+        lastName: 'lastName',
         password: 'hashedPassword',
       } as AdminEntity;
 
@@ -76,6 +78,8 @@ describe('AdminsService', () => {
       expect(result).toEqual({
         id: admin.id,
         email: admin.email,
+        firstName: admin.firstName,
+        lastName: admin.lastName,
         token,
       });
     });
