@@ -40,6 +40,8 @@ describe('AdminsController', () => {
       const mockAdmin = {
         id: 1,
         email: 'email@example.com',
+        firstName: 'firstName',
+        lastName: 'lastName',
         token: 'mockToken',
       };
 
@@ -54,6 +56,8 @@ describe('AdminsController', () => {
         admin: {
           id: mockAdmin.id,
           email: mockAdmin.email,
+          firstName: mockAdmin.firstName,
+          lastName: mockAdmin.lastName,
         },
       });
     });

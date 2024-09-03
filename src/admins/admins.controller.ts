@@ -19,7 +19,12 @@ export class AdminsController {
     success: boolean;
     message: string;
     token: string;
-    admin: { id: AdminEntity['id']; email: AdminEntity['email'] };
+    admin: {
+      id: AdminEntity['id'];
+      email: AdminEntity['email'];
+      firstName: AdminEntity['firstName'];
+      lastName: AdminEntity['lastName'];
+    };
   }> {
     try {
       // Connecte l'Admin
@@ -33,6 +38,8 @@ export class AdminsController {
         admin: {
           id: admin.id,
           email: admin.email,
+          firstName: admin.firstName,
+          lastName: admin.lastName,
         },
       };
     } catch (error) {
