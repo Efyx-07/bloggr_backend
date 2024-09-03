@@ -37,10 +37,10 @@ export class ArticlesController {
   // Récupère tous les articles - endpoint .../articles
   // ===========================================================================================
   @Get()
-  async getArticles(): Promise<ArticleEntity[]> {
+  async getArticles(): Promise<{ articles: ArticleEntity[] }> {
     try {
       const articles = await this.articlesService.getArticles();
-      return articles;
+      return { articles: articles };
     } catch (error) {
       throw new InternalServerErrorException(
         'Error while fetching articles: ' + error.message,

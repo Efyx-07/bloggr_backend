@@ -85,32 +85,34 @@ describe('ArticlesController', () => {
   // ===========================================================================================
   describe('get-articles', () => {
     it('should return an array of all the articles', async () => {
-      const mockArticles: ArticleEntity[] = [
-        {
-          id: 1,
-          title: 'Article 1',
-          imageUrl: 'url1',
-          body: 'body1',
-          creationDate: new Date(),
-          lastUpdate: new Date(),
-        },
-        {
-          id: 2,
-          title: 'Article 2',
-          imageUrl: 'url2',
-          body: 'body2',
-          creationDate: new Date(),
-          lastUpdate: new Date(),
-        },
-      ];
+      const mockArticles: { articles: ArticleEntity[] } = {
+        articles: [
+          {
+            id: 1,
+            title: 'Article 1',
+            imageUrl: 'url1',
+            body: 'body1',
+            creationDate: new Date(),
+            lastUpdate: new Date(),
+          },
+          {
+            id: 2,
+            title: 'Article 2',
+            imageUrl: 'url2',
+            body: 'body2',
+            creationDate: new Date(),
+            lastUpdate: new Date(),
+          },
+        ],
+      };
 
       jest
         .spyOn(articlesService, 'getArticles')
-        .mockResolvedValue(mockArticles);
+        .mockResolvedValue(mockArticles.articles);
 
       const result = await articlesController.getArticles();
 
-      expect(result).toEqual(mockArticles);
+      expect(result).toEqual({ articles: mockArticles.articles });
     });
 
     it('should throw InternalServerErrorException on error', async () => {
