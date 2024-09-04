@@ -61,7 +61,7 @@ export class ArticlesController {
       return { article: article };
     } catch (error) {
       throw new InternalServerErrorException(
-        'Error while fetching article: ' + error.message,
+        `Error while fetching article ${id}: ` + error.message,
       );
     }
   }

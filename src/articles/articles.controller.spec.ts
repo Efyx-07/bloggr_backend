@@ -18,6 +18,7 @@ describe('ArticlesController', () => {
           useValue: {
             createArticle: jest.fn(),
             getArticles: jest.fn(),
+            getArticleById: jest.fn(),
             updateArticleById: jest.fn(),
             deleteArticleById: jest.fn(),
           },
@@ -124,6 +125,44 @@ describe('ArticlesController', () => {
       await expect(articlesController.getArticles()).rejects.toThrow(
         new InternalServerErrorException(
           `Error while fetching articles: ${errorMessage}`,
+        ),
+      );
+    });
+  });
+
+  // Test - getArticleById
+  // ===========================================================================================
+  describe('getArticleById', () => {
+    const mockArticle: ArticleEntity = {
+      id: 1,
+      title: 'Article 1',
+      imageUrl: 'url1',
+      body: 'body1',
+      creationDate: new Date(),
+      lastUpdate: new Date(),
+    };
+
+    it('should return an article and its details', async () => {
+      jest
+        .spyOn(articlesService, 'getArticleById')
+        .mockResolvedValue(mockArticle);
+
+      const result = await articlesController.getArticleById(mockArticle.id);
+
+      expect(result).toEqual({ article: mockArticle });
+    });
+
+    it('should throw InternalServerErrorException on error', async () => {
+      const errorMessage = 'Database error';
+      jest
+        .spyOn(articlesService, 'getArticleById')
+        .mockRejectedValue(new Error(errorMessage));
+
+      await expect(
+        articlesController.getArticleById(mockArticle.id),
+      ).rejects.toThrow(
+        new InternalServerErrorException(
+          `Error while fetching article ${mockArticle.id}: ${errorMessage}`,
         ),
       );
     });
