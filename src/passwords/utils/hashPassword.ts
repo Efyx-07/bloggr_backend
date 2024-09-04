@@ -1,6 +1,8 @@
 import * as bcrypt from 'bcrypt';
 import { AdminEntity } from '../../entities/admin.entity';
 
+// Hache et sale le password avec bcrypt
+// ===========================================================================================
 export async function hashPassword(
   password: AdminEntity['password'],
 ): Promise<string> {

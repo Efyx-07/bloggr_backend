@@ -5,7 +5,7 @@ import {
   InternalServerErrorException,
 } from '@nestjs/common';
 
-// Compare the password filled and user password
+// Compare le password renseigné et le mot de passe connu de l'Admin
 // ===========================================================================================
 export async function comparePasswords(
   password: AdminEntity['password'],
