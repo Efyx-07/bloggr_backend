@@ -65,7 +65,7 @@ export class ArticlesService {
       return article;
     } catch (error) {
       throw new InternalServerErrorException(
-        'Error while fetching article: ' + error.message,
+        `Error while fetching article ${id}: ` + error.message,
       );
     }
   }
