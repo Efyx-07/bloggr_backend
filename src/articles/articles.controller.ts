@@ -39,11 +39,29 @@ export class ArticlesController {
   @Get()
   async getArticles(): Promise<{ articles: ArticleEntity[] }> {
     try {
-      const articles = await this.articlesService.getArticles();
+      const articles: ArticleEntity[] =
+        await this.articlesService.getArticles();
       return { articles: articles };
     } catch (error) {
       throw new InternalServerErrorException(
         'Error while fetching articles: ' + error.message,
+      );
+    }
+  }
+
+  // Récupère un article par son ID - endpoint .../articles/id
+  // ===========================================================================================
+  @Get(':id')
+  async getArticleById(
+    @Param('id') id: ArticleEntity['id'],
+  ): Promise<{ article: ArticleEntity }> {
+    try {
+      const article: ArticleEntity =
+        await this.articlesService.getArticleById(id);
+      return { article: article };
+    } catch (error) {
+      throw new InternalServerErrorException(
+        'Error while fetching article: ' + error.message,
       );
     }
   }

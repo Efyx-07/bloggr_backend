@@ -46,11 +46,26 @@ export class ArticlesService {
   // ===========================================================================================
   async getArticles(): Promise<ArticleEntity[]> {
     try {
-      const articles = await this.articleRepository.find();
+      const articles: ArticleEntity[] = await this.articleRepository.find();
       return articles;
     } catch (error) {
       throw new InternalServerErrorException(
         'Error while fetching articles: ' + error.message,
+      );
+    }
+  }
+
+  // Récupère un article par son ID
+  // ===========================================================================================
+  async getArticleById(id: ArticleEntity['id']): Promise<ArticleEntity> {
+    try {
+      const article: ArticleEntity = await this.articleRepository.findOne({
+        where: { id },
+      });
+      return article;
+    } catch (error) {
+      throw new InternalServerErrorException(
+        'Error while fetching article: ' + error.message,
       );
     }
   }
