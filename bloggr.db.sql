@@ -16,3 +16,16 @@ CREATE TABLE articles (
     creation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     last_update TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
+
+CREATE TABLE keywords (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    keyword VARCHAR(255) UNIQUE NOT NULL
+);
+
+CREATE TABLE article_keywords (
+    article_id INT,
+    keyword_id INT,
+    PRIMARY KEY (article_id, keyword_id),
+    FOREIGN KEY (article_id) REFERENCES articles(id) ON DELETE CASCADE,
+    FOREIGN KEY (keyword_id) REFERENCES keywords(id) ON DELETE CASCADE
+);
