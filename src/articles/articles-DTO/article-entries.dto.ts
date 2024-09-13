@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsArray, IsNotEmpty, IsString } from 'class-validator';
 import { ArticleEntity } from '../../entities/article.entity';
 
 export class ArticleEntriesDTO {
@@ -13,6 +13,4 @@ export class ArticleEntriesDTO {
   @IsString()
   @IsNotEmpty()
   body: ArticleEntity['body'];
-
-  keywords: ArticleEntity['articleKeywords'];
 }

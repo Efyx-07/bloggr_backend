@@ -40,7 +40,7 @@ export class ArticlesService {
         'Error while creating article: ' + error.message,
       );
     }
-  }
+  } 
 
   // Récupère tous les articles
   // ===========================================================================================
