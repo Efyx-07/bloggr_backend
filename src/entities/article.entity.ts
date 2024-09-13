@@ -2,9 +2,11 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { ArticleKeywordEntity } from './article_keyword.entity';
 
 @Entity('articles')
 export class ArticleEntity {
@@ -31,4 +33,7 @@ export class ArticleEntity {
     name: 'last_update',
   })
   lastUpdate: Date;
+
+  @OneToMany(() => ArticleKeywordEntity, (articleKeyword) => articleKeyword.article)
+  articleKeywords: ArticleKeywordEntity[];
 }
