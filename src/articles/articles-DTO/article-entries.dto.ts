@@ -13,4 +13,6 @@ export class ArticleEntriesDTO {
   @IsString()
   @IsNotEmpty()
   body: ArticleEntity['body'];
+
+  keywords: ArticleEntity['articleKeywords'];
 }
