@@ -22,7 +22,7 @@ export class ArticlesController {
   @Post('create-article')
   async createArticle(
     @Body() articleEntriesDTO: ArticleEntriesDTO,
-  ): Promise<{ message: string; article: Article }> {
+  ): Promise<{ message: string; article: ArticleEntity }> {
     try {
       const { article } =
         await this.articlesService.createArticle(articleEntriesDTO);

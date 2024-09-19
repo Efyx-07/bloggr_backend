@@ -5,6 +5,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ArticlesModule } from './articles/articles.module';
 import { ArticleEntity } from './entities/article.entity';
+import { KeywordEntity } from './entities/keyword.entity';
 import { AdminsModule } from './admins/admins.module';
 import { AdminEntity } from './entities/admin.entity';
 import { AuthModule } from './auth/auth.module';
@@ -25,7 +26,7 @@ import { PasswordsModule } from './passwords/passwords.module';
         username: configService.get<string>('DB_USERNAME'),
         password: configService.get<string>('DB_PASSWORD'),
         database: configService.get<string>('DB_NAME'),
-        entities: [ArticleEntity, AdminEntity],
+        entities: [ArticleEntity, KeywordEntity, AdminEntity],
         synchronize: true, // disable in production
       }),
     }),

@@ -1,12 +1,14 @@
+import { IsNotEmpty, IsUrl } from 'class-validator';
 import {
   Column,
   CreateDateColumn,
   Entity,
-  OneToMany,
+  JoinTable,
+  ManyToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { ArticleKeywordEntity } from './article_keyword.entity';
+import { KeywordEntity } from './keyword.entity';
 
 @Entity('articles')
 export class ArticleEntity {
@@ -14,12 +16,16 @@ export class ArticleEntity {
   id: number;
 
   @Column({ type: 'varchar', length: 255, name: 'title' })
+  @IsNotEmpty()
   title: string;
 
   @Column({ type: 'varchar', length: 255, name: 'image_url' })
+  @IsNotEmpty()
+  @IsUrl()
   imageUrl: string;
 
   @Column({ type: 'longtext', name: 'body' })
+  @IsNotEmpty()
   body: string;
 
   @CreateDateColumn({
@@ -34,6 +40,11 @@ export class ArticleEntity {
   })
   lastUpdate: Date;
 
-  @OneToMany(() => ArticleKeywordEntity, (articleKeyword) => articleKeyword.article)
-  articleKeywords: ArticleKeywordEntity[];
+  @ManyToMany(() => KeywordEntity, keyword => keyword.articles)
+  @JoinTable({
+    name: 'article_keywords',
+    joinColumn: { name: 'article_id', referencedColumnName: 'id' },
+    inverseJoinColumn: { name: 'keyword_id', referencedColumnName: 'id' }
+  })
+  keywords: KeywordEntity[];
 }
