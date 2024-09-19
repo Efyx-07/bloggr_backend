@@ -4,6 +4,7 @@ import { ArticlesService } from './articles.service';
 import { ArticleEntriesDTO } from './articles-DTO/article-entries.dto';
 import { ArticleEntity } from '../entities/article.entity';
 import { InternalServerErrorException } from '@nestjs/common';
+import { KeywordEntity } from '../entities/keyword.entity';
 
 describe('ArticlesController', () => {
   let articlesController: ArticlesController;
@@ -41,7 +42,13 @@ describe('ArticlesController', () => {
       title: 'title',
       imageUrl: 'imageUrl',
       body: 'body',
+      keywords: [{name: "keyword1"}, {name: "keyword2"}],
     };
+
+    const keywordEntities: KeywordEntity[] = [
+      { id: 1, name: 'keyword1' } as KeywordEntity,
+      { id: 2, name: 'keyword2' } as KeywordEntity,
+    ];
 
     it('should return a success message and article details', async () => {
       const mockArticle: ArticleEntity = {
@@ -51,6 +58,7 @@ describe('ArticlesController', () => {
         body: articleEntriesDTO.body,
         creationDate: new Date(),
         lastUpdate: new Date(),
+        keywords: keywordEntities,
       };
 
       jest
@@ -85,6 +93,10 @@ describe('ArticlesController', () => {
   // Test - getArticle
   // ===========================================================================================
   describe('get-articles', () => {
+    const keywordEntities: KeywordEntity[] = [
+      { id: 1, name: 'keyword1' } as KeywordEntity,
+      { id: 2, name: 'keyword2' } as KeywordEntity,
+    ];
     it('should return an array of all the articles', async () => {
       const mockArticles: { articles: ArticleEntity[] } = {
         articles: [
@@ -95,6 +107,7 @@ describe('ArticlesController', () => {
             body: 'body1',
             creationDate: new Date(),
             lastUpdate: new Date(),
+            keywords: keywordEntities,
           },
           {
             id: 2,
@@ -103,6 +116,7 @@ describe('ArticlesController', () => {
             body: 'body2',
             creationDate: new Date(),
             lastUpdate: new Date(),
+            keywords: keywordEntities,
           },
         ],
       };
@@ -133,6 +147,10 @@ describe('ArticlesController', () => {
   // Test - getArticleById
   // ===========================================================================================
   describe('getArticleById', () => {
+    const keywordEntities: KeywordEntity[] = [
+      { id: 1, name: 'keyword1' } as KeywordEntity,
+      { id: 2, name: 'keyword2' } as KeywordEntity,
+    ];
     const mockArticle: ArticleEntity = {
       id: 1,
       title: 'Article 1',
@@ -140,6 +158,7 @@ describe('ArticlesController', () => {
       body: 'body1',
       creationDate: new Date(),
       lastUpdate: new Date(),
+      keywords: keywordEntities,
     };
 
     it('should return an article and its details', async () => {
@@ -177,6 +196,11 @@ describe('ArticlesController', () => {
       body: 'body',
     };
 
+    const keywordEntities: KeywordEntity[] = [
+      { id: 1, name: 'keyword1' } as KeywordEntity,
+      { id: 2, name: 'keyword2' } as KeywordEntity,
+    ];
+
     const mockArticle: ArticleEntity = {
       id: 1,
       title: articleEntriesDTO.title,
@@ -184,6 +208,7 @@ describe('ArticlesController', () => {
       body: articleEntriesDTO.body,
       creationDate: new Date(),
       lastUpdate: new Date(),
+      keywords: keywordEntities,
     };
 
     it('should return a success message after a successfully updating of an article', async () => {

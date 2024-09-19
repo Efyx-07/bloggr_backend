@@ -40,6 +40,8 @@ export class ArticlesService {
           }),
         );
         newArticle.keywords = keywordEntities;
+      } else {
+        newArticle.keywords = [];
       }
       const result = await this.articleRepository.save(newArticle);
       return {
@@ -50,7 +52,7 @@ export class ArticlesService {
           body: result.body,
           creationDate: result.creationDate,
           lastUpdate: result.lastUpdate,
-          keywords: result.keywords
+          keywords: result.keywords || [],
         },
       };
     } catch (error) {
