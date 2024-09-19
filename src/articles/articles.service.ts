@@ -66,7 +66,7 @@ export class ArticlesService {
   // ===========================================================================================
   async getArticles(): Promise<ArticleEntity[]> {
     try {
-      const articles: ArticleEntity[] = await this.articleRepository.find();
+      const articles: ArticleEntity[] = await this.articleRepository.find({relations: ['keywords']});
       return articles;
     } catch (error) {
       throw new InternalServerErrorException(
@@ -81,6 +81,7 @@ export class ArticlesService {
     try {
       const article: ArticleEntity = await this.articleRepository.findOne({
         where: { id },
+        relations: ['keywords']
       });
       return article;
     } catch (error) {
