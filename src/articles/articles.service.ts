@@ -85,7 +85,19 @@ export class ArticlesService {
     articleEntriesDTO: ArticleEntriesDTO,
   ): Promise<void> {
     try {
-      await this.articleRepository.update(id, articleEntriesDTO);
+      await this.articleRepository.update(id, {
+        title: articleEntriesDTO.title,
+        imageUrl: articleEntriesDTO.imageUrl,
+        body: articleEntriesDTO.body,
+      });
+      const article = await this.articleRepository.findOne({
+        where: { id },
+        relations: ['keywords'],
+      });
+      article.keywords = await this.checkAndInsertKeywords(
+        articleEntriesDTO.keywords,
+      );
+      await this.articleRepository.save(article);
       // Met à jour last update après chaque modification de l'article
       await this.updateLastUpdateAfterHandling(id);
     } catch (error) {
