@@ -51,7 +51,9 @@ export class ArticlesService {
   // ===========================================================================================
   async getArticles(): Promise<ArticleEntity[]> {
     try {
-      const articles: ArticleEntity[] = await this.articleRepository.find({relations: ['keywords']});
+      const articles: ArticleEntity[] = await this.articleRepository.find({
+        relations: ['keywords'],
+      });
       return articles;
     } catch (error) {
       throw new InternalServerErrorException(
@@ -66,7 +68,7 @@ export class ArticlesService {
     try {
       const article: ArticleEntity = await this.articleRepository.findOne({
         where: { id },
-        relations: ['keywords']
+        relations: ['keywords'],
       });
       return article;
     } catch (error) {
@@ -112,25 +114,31 @@ export class ArticlesService {
 
   // Vérifie si un keyword existe déjà, sinon l'insère dans la table keywords et retourn un tableau de keywords
   // ===========================================================================================
-  public async checkAndInsertKeywords(keywords: KeywordDTO[]): Promise<KeywordEntity[]> {
-    try { 
-      if(keywords && keywords.length > 0) {
+  public async checkAndInsertKeywords(
+    keywords: KeywordDTO[],
+  ): Promise<KeywordEntity[]> {
+    try {
+      if (keywords && keywords.length > 0) {
         const keywordEntities = await Promise.all(
           keywords.map(async (keywordDTO: KeywordDTO) => {
-            let keyword = await this.keywordRepository.findOne({where: {name: keywordDTO.name}});
+            let keyword = await this.keywordRepository.findOne({
+              where: { name: keywordDTO.name },
+            });
             if (!keyword) {
               keyword = this.keywordRepository.create(keywordDTO);
               await this.keywordRepository.save(keyword);
             }
             return keyword;
-          })
-        )
+          }),
+        );
         return keywordEntities;
       } else {
         return [];
-      }  
+      }
     } catch (error) {
-      throw new InternalServerErrorException('Error checking and inserting keywords: ' + error)
+      throw new InternalServerErrorException(
+        'Error checking and inserting keywords: ' + error,
+      );
     }
   }
 
