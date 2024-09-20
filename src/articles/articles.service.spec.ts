@@ -59,10 +59,7 @@ describe('ArticlesService', () => {
       title: 'title',
       imageUrl: 'http://albumurl.com',
       body: 'body',
-      keywords: [
-        { name: 'keyword1' },
-        { name: 'keyword2' },
-      ],
+      keywords: [{ name: 'keyword1' }, { name: 'keyword2' }],
     };
 
     const keywordEntities: KeywordEntity[] = [
@@ -81,27 +78,33 @@ describe('ArticlesService', () => {
     };
 
     it('should create an article and return the article with details', async () => {
-      jest.spyOn(keywordRepository, 'findOne').mockImplementation(async (condition: any) => {
-        if (Array.isArray(condition)) {
+      jest
+        .spyOn(keywordRepository, 'findOne')
+        .mockImplementation(async (condition: any) => {
+          if (Array.isArray(condition)) {
+            return null;
+          }
+
+          if (condition && condition.where) {
+            const name = condition.where.name;
+            const keyword = keywordEntities.find((k) => k.name === name);
+            return keyword || null;
+          }
+
           return null;
-        }
-        
-        if (condition && condition.where) {
-          const name = condition.where.name;
-          const keyword = keywordEntities.find(k => k.name === name);
-          return keyword || null;
-        }
-        
-        return null;
-      });
+        });
 
-      jest.spyOn(keywordRepository, 'create').mockImplementation((keywordDTO: KeywordDTO) => {
-        return { id: Date.now(), ...keywordDTO } as KeywordEntity;
-      });
+      jest
+        .spyOn(keywordRepository, 'create')
+        .mockImplementation((keywordDTO: KeywordDTO) => {
+          return { id: Date.now(), ...keywordDTO } as KeywordEntity;
+        });
 
-      jest.spyOn(keywordRepository, 'save').mockImplementation(async (keyword: KeywordEntity) => {
-        return keyword;
-      });
+      jest
+        .spyOn(keywordRepository, 'save')
+        .mockImplementation(async (keyword: KeywordEntity) => {
+          return keyword;
+        });
       jest.spyOn(articlesRepository, 'create').mockReturnValue(mockArticle);
       jest.spyOn(articlesRepository, 'save').mockResolvedValue(mockArticle);
 
@@ -121,11 +124,20 @@ describe('ArticlesService', () => {
     });
 
     it('should throw InternalServerErrorException on error', async () => {
-      const errorMessage = 'Cannot set properties of undefined (setting \'keywords\')';
-      jest.spyOn(articlesRepository, 'create').mockReturnValue({} as ArticleEntity);
-      jest.spyOn(articlesRepository, 'save').mockRejectedValue(new Error(errorMessage));
-      await expect(articlesService.createArticle(articleEntriesDTO)).rejects.toThrow(
-        new InternalServerErrorException(`Error while creating article: ${errorMessage}`)
+      const errorMessage =
+        "Cannot set properties of undefined (setting 'keywords')";
+      jest
+        .spyOn(articlesRepository, 'create')
+        .mockReturnValue({} as ArticleEntity);
+      jest
+        .spyOn(articlesRepository, 'save')
+        .mockRejectedValue(new Error(errorMessage));
+      await expect(
+        articlesService.createArticle(articleEntriesDTO),
+      ).rejects.toThrow(
+        new InternalServerErrorException(
+          `Error while creating article: ${errorMessage}`,
+        ),
       );
     });
   });
@@ -147,7 +159,7 @@ describe('ArticlesService', () => {
           body: 'body1',
           creationDate: new Date('2024-08-30T12:00:00Z'),
           lastUpdate: new Date('2024-08-30T12:00:00Z'),
-          keywords: keywordEntities
+          keywords: keywordEntities,
         },
         {
           id: 2,
@@ -156,7 +168,7 @@ describe('ArticlesService', () => {
           body: 'body2',
           creationDate: new Date('2024-08-30T12:00:00Z'),
           lastUpdate: new Date('2024-08-30T12:00:00Z'),
-          keywords: keywordEntities
+          keywords: keywordEntities,
         },
       ];
 

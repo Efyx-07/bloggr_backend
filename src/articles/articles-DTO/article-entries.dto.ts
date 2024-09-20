@@ -1,4 +1,10 @@
-import { IsArray, IsNotEmpty, IsOptional, IsString, ValidateNested } from 'class-validator';
+import {
+  IsArray,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  ValidateNested,
+} from 'class-validator';
 import { ArticleEntity } from '../../entities/article.entity';
 import { KeywordDTO } from './keyword.dto';
 import { Type } from 'class-transformer';

@@ -40,11 +40,11 @@ export class ArticleEntity {
   })
   lastUpdate: Date;
 
-  @ManyToMany(() => KeywordEntity, keyword => keyword.articles)
+  @ManyToMany(() => KeywordEntity, (keyword) => keyword.articles)
   @JoinTable({
     name: 'article_keywords',
     joinColumn: { name: 'article_id', referencedColumnName: 'id' },
-    inverseJoinColumn: { name: 'keyword_id', referencedColumnName: 'id' }
+    inverseJoinColumn: { name: 'keyword_id', referencedColumnName: 'id' },
   })
   keywords: KeywordEntity[];
 }

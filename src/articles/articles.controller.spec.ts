@@ -42,7 +42,7 @@ describe('ArticlesController', () => {
       title: 'title',
       imageUrl: 'imageUrl',
       body: 'body',
-      keywords: [{name: "keyword1"}, {name: "keyword2"}],
+      keywords: [{ name: 'keyword1' }, { name: 'keyword2' }],
     };
 
     const keywordEntities: KeywordEntity[] = [

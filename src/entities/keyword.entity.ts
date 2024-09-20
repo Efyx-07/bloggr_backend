@@ -11,6 +11,6 @@ export class KeywordEntity {
   @IsNotEmpty()
   name: string;
 
-  @ManyToMany(() => ArticleEntity, article => article.keywords)
+  @ManyToMany(() => ArticleEntity, (article) => article.keywords)
   articles: ArticleEntity[];
 }
