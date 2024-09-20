@@ -120,17 +120,14 @@ describe('ArticlesService', () => {
       });
     });
 
-    /*it('should throw InternalServerErrorException on error', async () => {
-      const errorMessage = 'Database error';
-    
-      // Simule une erreur lors de la sauvegarde de l'article
+    it('should throw InternalServerErrorException on error', async () => {
+      const errorMessage = 'Cannot set properties of undefined (setting \'keywords\')';
+      jest.spyOn(articlesRepository, 'create').mockReturnValue({} as ArticleEntity);
       jest.spyOn(articlesRepository, 'save').mockRejectedValue(new Error(errorMessage));
-    
-      // Exécute le test pour vérifier que l'exception est correctement lancée
       await expect(articlesService.createArticle(articleEntriesDTO)).rejects.toThrow(
         new InternalServerErrorException(`Error while creating article: ${errorMessage}`)
       );
-    });*/
+    });
   });
 
   // Test - getArticles
