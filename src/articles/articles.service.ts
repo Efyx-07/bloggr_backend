@@ -27,6 +27,7 @@ export class ArticlesService {
         imageUrl,
         body,
       });
+      // Gère les keywords selon la méthode établie dans checkAndInsertKeywords
       newArticle.keywords = await this.checkAndInsertKeywords(keywords);
       const result = await this.articleRepository.save(newArticle);
       return {
@@ -90,10 +91,12 @@ export class ArticlesService {
         imageUrl: articleEntriesDTO.imageUrl,
         body: articleEntriesDTO.body,
       });
+      // Récupère l'article avec ses keywords
       const article = await this.articleRepository.findOne({
         where: { id },
         relations: ['keywords'],
       });
+      // Gère les keywords selon la méthode établie dans checkAndInsertKeywords
       article.keywords = await this.checkAndInsertKeywords(
         articleEntriesDTO.keywords,
       );
@@ -124,18 +127,20 @@ export class ArticlesService {
     }
   }
 
-  // Vérifie si un keyword existe déjà, sinon l'insère dans la table keywords et retourn un tableau de keywords
+  // Vérifie si un keyword existe déjà, si non l'insère dans la table keywords et retourne un tableau de keywords
   // ===========================================================================================
   public async checkAndInsertKeywords(
     keywords: KeywordDTO[],
   ): Promise<KeywordEntity[]> {
     try {
+      // Vérifie la présence du keyword dans keywords 
       if (keywords && keywords.length > 0) {
         const keywordEntities = await Promise.all(
           keywords.map(async (keywordDTO: KeywordDTO) => {
             let keyword = await this.keywordRepository.findOne({
               where: { name: keywordDTO.name },
             });
+            // Si le keyword n'existe pas, l'insère dans la table keywords
             if (!keyword) {
               keyword = this.keywordRepository.create(keywordDTO);
               await this.keywordRepository.save(keyword);
