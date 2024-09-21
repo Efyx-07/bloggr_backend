@@ -243,6 +243,37 @@ describe('ArticlesService', () => {
       keywords: [{ name: 'keyword1' }, { name: 'keyword2' }],
     };
 
+    /*
+    it('should update an article', async () => {
+      const mockKeywordEntities: KeywordEntity[] = articleEntriesDTO.keywords.map((keyword, index) => ({
+        id: index + 1,
+        name: keyword.name,
+        articles: [],
+      }));
+  
+      const mockArticleUpdated: ArticleEntity = {
+        id: articleId,
+        ...articleEntriesDTO,
+        creationDate: new Date('2024-01-01'),
+        lastUpdate: new Date('2024-01-02'),
+        keywords: mockKeywordEntities,
+      };
+  
+      jest.spyOn(articlesService, 'checkAndInsertKeywords').mockResolvedValue(mockKeywordEntities);
+      jest.spyOn(articlesRepository, 'findOne').mockResolvedValue({ ...mockArticleUpdated, lastUpdate: new Date('2024-01-01') });
+      jest.spyOn(articlesRepository, 'save').mockResolvedValue(mockArticleUpdated);
+      
+      const result = await articlesService.updateArticleById(articleId, articleEntriesDTO);
+      
+      expect(result).toEqual(mockArticleUpdated);
+      expect(articlesService.checkAndInsertKeywords).toHaveBeenCalledWith(articleEntriesDTO.keywords);
+      expect(articlesRepository.findOne).toHaveBeenCalledWith({ where: { id: articleId } });
+      expect(articlesRepository.save).toHaveBeenCalledWith(expect.objectContaining({
+        ...mockArticleUpdated,
+        lastUpdate: expect.any(Date),
+      }));
+    });*/
+
     /*it('should update an article', async () => {
       jest
         .spyOn(articlesService, 'updateLastUpdateAfterHandling')
