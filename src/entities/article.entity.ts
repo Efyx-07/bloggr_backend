@@ -40,6 +40,37 @@ export class ArticleEntity {
   })
   lastUpdate: Date;
 
+  @Column({ type: 'boolean', default: false, name: 'published' })
+  published: boolean;
+
+  @Column({
+    type: 'timestamp',
+    name: 'publication_date',
+    nullable: true,
+  })
+  publicationDate: Date;
+
+  @Column({
+    type: 'timestamp',
+    name: 'publication_update',
+    nullable: true,
+  })
+  publicationUpdate: Date;
+
+  @Column({
+    type: 'int',
+    default: 1,
+    name:'published_version'
+  })
+  publishedVersion: number;
+
+  @Column({
+    type: 'int',
+    default: 1,
+    name:'current_version'
+  })
+  currentVersion: number;
+
   @ManyToMany(() => KeywordEntity, (keyword) => keyword.articles)
   @JoinTable({
     name: 'article_keywords',
