@@ -1,4 +1,4 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ArticleEntity } from '../entities/article.entity';
 import { KeywordEntity } from '../entities/keyword.entity';
@@ -55,7 +55,39 @@ export class ArticlesService {
 
   // Publie un article et le retourne
   // ===========================================================================================
-  async publishArticle(id: ArticleEntity['id']) {}
+  async publishArticle(id: ArticleEntity['id']): Promise<{ article: ArticleEntity }> {
+    try {
+      const article: ArticleEntity = await this.articleRepository.findOne({where: {id}});
+      if(!article) throw new NotFoundException ('Article not found');
+      // Met à jour les champs relatifs à la publication
+      article.published = true;
+      article.publicationDate = new Date();
+      article.publicationUpdate = new Date();
+      article.publishedVersion += 1;
+
+      const result = await this.articleRepository.save(article);
+      return {
+        article: {
+          id: result.id,
+          title: result.title,
+          imageUrl: result.imageUrl,
+          body: result.body,
+          creationDate: result.creationDate,
+          lastUpdate: result.lastUpdate,
+          published: result.published,
+          publicationDate: result.publicationDate,
+          publicationUpdate: result.publicationUpdate,
+          publishedVersion: result.publishedVersion,
+          currentVersion: result.currentVersion,
+          keywords: result.keywords || [],
+        },
+      };
+    } catch (error) {
+      throw new InternalServerErrorException(
+        'Error while publishing article: ' + error.message,
+      );
+    }
+  }
 
   // Récupère tous les articles
   // ===========================================================================================
