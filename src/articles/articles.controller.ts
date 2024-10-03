@@ -82,6 +82,8 @@ export class ArticlesController {
     }
   }
 
+  // !!! IMPORTANT garder cette route devant @Get(':id') pour éviter un conflit (sinon 'published-articles/:id' serait considéré comme un ID)
+  // !! Route pour l'API d'un'article publié à utiliser dans app externes
   // Récupère un article par son ID parmi les articles publiés - endpoint .../articles/id
   // ===========================================================================================
   @Get('published-articles/:id')

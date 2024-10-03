@@ -353,10 +353,10 @@ describe('ArticlesController', () => {
     });
   });
 
-  /*
   // Test - updateArticle
   // ===========================================================================================
   describe('update-article', () => {
+    const mockUpdatedArticleId: ArticleEntity['id'] = 1;
     const articleEntriesDTO: ArticleEntriesDTO = {
       title: 'title',
       imageUrl: 'imageUrl',
@@ -368,13 +368,15 @@ describe('ArticlesController', () => {
       { id: 2, name: 'keyword2' } as KeywordEntity,
     ];
 
-    const mockArticle: ArticleEntity = {
-      id: 1,
+    const mockUpdatedArticle: ArticleEntity = {
+      id: mockUpdatedArticleId,
       title: articleEntriesDTO.title,
       imageUrl: articleEntriesDTO.imageUrl,
       body: articleEntriesDTO.body,
       creationDate: new Date(),
       lastUpdate: new Date(),
+      published: true,
+      publicationDate: expect.any(Date),
       keywords: keywordEntities,
     };
 
@@ -384,12 +386,12 @@ describe('ArticlesController', () => {
         .mockResolvedValue(undefined);
 
       const result = await articlesController.updateArticle(
-        mockArticle.id,
+        mockUpdatedArticle.id,
         articleEntriesDTO,
       );
 
       expect(result).toEqual({
-        message: `Article ${mockArticle.id} successfully updated`,
+        message: `Article ${mockUpdatedArticle.id} successfully updated`,
       });
     });
 
@@ -400,14 +402,17 @@ describe('ArticlesController', () => {
         .mockRejectedValue(new Error(errorMessage));
 
       await expect(
-        articlesController.updateArticle(mockArticle.id, articleEntriesDTO),
+        articlesController.updateArticle(
+          mockUpdatedArticle.id,
+          articleEntriesDTO,
+        ),
       ).rejects.toThrow(
         new InternalServerErrorException(
           `Error while updating article: ${errorMessage}`,
         ),
       );
     });
-  });*/
+  });
 
   // Test - deleteArticle
   // ===========================================================================================

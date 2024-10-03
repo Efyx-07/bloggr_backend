@@ -309,8 +309,6 @@ describe('ArticlesService', () => {
     });
   });
 
-  /*
-
   // Test - updateArticleById
   // ===========================================================================================
   describe('updateArticleById', () => {
@@ -323,48 +321,66 @@ describe('ArticlesService', () => {
     };
 
     it('should update an article', async () => {
-      const mockKeywordEntities: KeywordEntity[] = articleEntriesDTO.keywords.map((keyword, index) => ({
-        id: index + 1,
-        name: keyword.name,
-        articles: [],
-      }));
-  
+      const mockKeywordEntities: KeywordEntity[] =
+        articleEntriesDTO.keywords.map((keyword, index) => ({
+          id: index + 1,
+          name: keyword.name,
+          articles: [],
+        }));
+
       const mockArticleUpdated: ArticleEntity = {
         id: articleId,
         ...articleEntriesDTO,
         creationDate: new Date('2024-01-01'),
         lastUpdate: new Date('2024-01-02'),
+        published: true,
+        publicationDate: expect.any(Date),
         keywords: mockKeywordEntities,
       };
-  
-      jest.spyOn(articlesService, 'checkAndInsertKeywords').mockResolvedValue(mockKeywordEntities);
-      jest.spyOn(articlesRepository, 'findOne').mockResolvedValue({ ...mockArticleUpdated, lastUpdate: new Date('2024-01-01') });
-      jest.spyOn(articlesRepository, 'save').mockResolvedValue(mockArticleUpdated);
-      
-      const result = await articlesService.updateArticleById(articleId, articleEntriesDTO);
-      
-      expect(result).toEqual(mockArticleUpdated);
-      expect(articlesService.checkAndInsertKeywords).toHaveBeenCalledWith(articleEntriesDTO.keywords);
-      expect(articlesRepository.findOne).toHaveBeenCalledWith({ where: { id: articleId } });
-      expect(articlesRepository.save).toHaveBeenCalledWith(expect.objectContaining({
-        ...mockArticleUpdated,
-        lastUpdate: expect.any(Date),
-      }));
-    });
 
-    it('should update an article', async () => {
+      jest
+        .spyOn(articlesService, 'checkAndInsertKeywords')
+        .mockResolvedValue(mockKeywordEntities);
+      jest.spyOn(articlesRepository, 'findOne').mockResolvedValue({
+        ...mockArticleUpdated,
+        lastUpdate: new Date('2024-01-01'),
+      });
+      jest
+        .spyOn(articlesRepository, 'save')
+        .mockResolvedValue(mockArticleUpdated);
+      jest.spyOn(articlesRepository, 'update').mockResolvedValue(undefined);
       jest
         .spyOn(articlesService, 'updateLastUpdateAfterHandling')
         .mockResolvedValue(undefined);
 
-      jest.spyOn(articlesRepository, 'update').mockResolvedValue(undefined);
-
-      await articlesService.updateArticleById(articleId, articleEntriesDTO);
+      await expect(
+        articlesService.updateArticleById(articleId, articleEntriesDTO),
+      ).resolves.not.toThrow();
 
       expect(articlesRepository.update).toHaveBeenCalledWith(
         articleId,
-        articleEntriesDTO,
+        expect.objectContaining({
+          title: articleEntriesDTO.title,
+          imageUrl: articleEntriesDTO.imageUrl,
+          body: articleEntriesDTO.body,
+        }),
       );
+      expect(articlesService.checkAndInsertKeywords).toHaveBeenCalledWith(
+        articleEntriesDTO.keywords,
+      );
+      expect(articlesRepository.findOne).toHaveBeenCalledWith({
+        where: { id: articleId },
+        relations: ['keywords'],
+      });
+      expect(articlesRepository.save).toHaveBeenCalledWith(
+        expect.objectContaining({
+          ...mockArticleUpdated,
+          lastUpdate: expect.any(Date),
+        }),
+      );
+      expect(
+        articlesService.updateLastUpdateAfterHandling,
+      ).toHaveBeenCalledWith(articleId);
     });
 
     it('should throw InternalServerErrorException on error', async () => {
@@ -381,7 +397,7 @@ describe('ArticlesService', () => {
         ),
       );
     });
-  });*/
+  });
 
   // Test - deleteArticleById
   // ===========================================================================================
