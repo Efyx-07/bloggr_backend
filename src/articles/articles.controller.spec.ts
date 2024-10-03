@@ -270,7 +270,7 @@ describe('ArticlesController', () => {
       { id: 1, name: 'keyword1' } as KeywordEntity,
       { id: 2, name: 'keyword2' } as KeywordEntity,
     ];
-    it('should return an array of all the articles', async () => {
+    it('should return an array of all the published articles', async () => {
       const mockPublishedArticles: { articles: ArticleEntity[] } = {
         articles: [
           {
@@ -322,6 +322,56 @@ describe('ArticlesController', () => {
       await expect(articlesController.getPublishedArticles()).rejects.toThrow(
         new InternalServerErrorException(
           `Error while fetching published articles: ${errorMessage}`,
+        ),
+      );
+    });
+  });
+
+  // Test - getPublishedArticleById
+  // ===========================================================================================
+  describe('getArticleById', () => {
+    const keywordEntities: KeywordEntity[] = [
+      { id: 1, name: 'keyword1' } as KeywordEntity,
+      { id: 2, name: 'keyword2' } as KeywordEntity,
+    ];
+    const mockPublishedArticle: ArticleEntity = {
+      id: 1,
+      title: 'Article 1',
+      imageUrl: 'url1',
+      body: 'body1',
+      creationDate: new Date(),
+      lastUpdate: new Date(),
+      published: true,
+      publicationDate: expect.any(Date),
+      publicationUpdate: expect.any(Date),
+      publishedVersion: 1,
+      currentVersion: 1,
+      keywords: keywordEntities,
+    };
+
+    it('should return a published article and its details', async () => {
+      jest
+        .spyOn(articlesService, 'getPublishedArticleById')
+        .mockResolvedValue(mockPublishedArticle);
+
+      const result = await articlesController.getPublishedArticleById(
+        mockPublishedArticle.id,
+      );
+
+      expect(result).toEqual({ article: mockPublishedArticle });
+    });
+
+    it('should throw InternalServerErrorException on error', async () => {
+      const errorMessage = 'Database error';
+      jest
+        .spyOn(articlesService, 'getPublishedArticleById')
+        .mockRejectedValue(new Error(errorMessage));
+
+      await expect(
+        articlesController.getPublishedArticleById(mockPublishedArticle.id),
+      ).rejects.toThrow(
+        new InternalServerErrorException(
+          `Error while fetching published article ${mockPublishedArticle.id}: ${errorMessage}`,
         ),
       );
     });

@@ -4,9 +4,7 @@ import { ArticleEntity } from '../entities/article.entity';
 import { ArticleEntriesDTO } from './articles-DTO/article-entries.dto';
 import { Repository } from 'typeorm';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import {
-  InternalServerErrorException,
-} from '@nestjs/common';
+import { InternalServerErrorException } from '@nestjs/common';
 import { KeywordEntity } from '../entities/keyword.entity';
 import { KeywordDTO } from './articles-DTO/keyword.dto';
 
