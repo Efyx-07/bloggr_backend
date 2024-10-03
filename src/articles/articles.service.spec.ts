@@ -6,7 +6,6 @@ import { Repository } from 'typeorm';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import {
   InternalServerErrorException,
-  NotFoundException,
 } from '@nestjs/common';
 import { KeywordEntity } from '../entities/keyword.entity';
 import { KeywordDTO } from './articles-DTO/keyword.dto';

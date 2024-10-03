@@ -21,6 +21,8 @@ describe('ArticlesController', () => {
             publishArticle: jest.fn(),
             getArticles: jest.fn(),
             getArticleById: jest.fn(),
+            getPublishedArticles: jest.fn(),
+            getPublishedArticleById: jest.fn(),
             updateArticleById: jest.fn(),
             deleteArticleById: jest.fn(),
           },
@@ -256,6 +258,70 @@ describe('ArticlesController', () => {
       ).rejects.toThrow(
         new InternalServerErrorException(
           `Error while fetching article ${mockArticle.id}: ${errorMessage}`,
+        ),
+      );
+    });
+  });
+
+  // Test - getPublishedArticles
+  // ===========================================================================================
+  describe('get-published-articles', () => {
+    const keywordEntities: KeywordEntity[] = [
+      { id: 1, name: 'keyword1' } as KeywordEntity,
+      { id: 2, name: 'keyword2' } as KeywordEntity,
+    ];
+    it('should return an array of all the articles', async () => {
+      const mockPublishedArticles: { articles: ArticleEntity[] } = {
+        articles: [
+          {
+            id: 1,
+            title: 'Article 1',
+            imageUrl: 'url1',
+            body: 'body1',
+            creationDate: new Date(),
+            lastUpdate: new Date(),
+            published: true,
+            publicationDate: expect.any(Date),
+            publicationUpdate: expect.any(Date),
+            publishedVersion: 1,
+            currentVersion: 1,
+            keywords: keywordEntities,
+          },
+          {
+            id: 2,
+            title: 'Article 2',
+            imageUrl: 'url2',
+            body: 'body2',
+            creationDate: new Date(),
+            lastUpdate: new Date(),
+            published: false,
+            publicationDate: expect.any(Date),
+            publicationUpdate: expect.any(Date),
+            publishedVersion: 1,
+            currentVersion: 1,
+            keywords: keywordEntities,
+          },
+        ],
+      };
+
+      jest
+        .spyOn(articlesService, 'getPublishedArticles')
+        .mockResolvedValue(mockPublishedArticles.articles);
+
+      const result = await articlesController.getPublishedArticles();
+
+      expect(result).toEqual({ articles: mockPublishedArticles.articles });
+    });
+
+    it('should throw InternalServerErrorException on error', async () => {
+      const errorMessage = 'Database error';
+      jest
+        .spyOn(articlesService, 'getPublishedArticles')
+        .mockRejectedValue(new Error(errorMessage));
+
+      await expect(articlesController.getPublishedArticles()).rejects.toThrow(
+        new InternalServerErrorException(
+          `Error while fetching published articles: ${errorMessage}`,
         ),
       );
     });
