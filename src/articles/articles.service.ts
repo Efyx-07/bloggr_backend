@@ -63,7 +63,7 @@ export class ArticlesService {
       article.published = true;
       article.publicationDate = new Date();
       article.publicationUpdate = new Date();
-      article.publishedVersion += 1;
+      article.publishedVersion += 1; // Incrémente la version publiée
 
       const result = await this.articleRepository.save(article);
       return {
