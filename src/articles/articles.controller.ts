@@ -65,6 +65,38 @@ export class ArticlesController {
     }
   }
 
+  // !!! IMPORTANT garder cette route devant @Get(':id') pour éviter un conflit (sinon 'published-articles' serait considéré comme un ID)
+  // !! Route pour l'API des articles publiés à utiliser dans app externes
+  // Récupère tous les articles publiés - endpoint .../articles/published-articles
+  // ===========================================================================================
+  @Get('published-articles')
+  async getPublishedArticles(): Promise<{ articles: ArticleEntity[] }> {
+    try {
+      const publishedArticles: ArticleEntity[] =
+        await this.articlesService.getPublishedArticles();
+      return { articles: publishedArticles };
+    } catch (error) {
+      throw new InternalServerErrorException(
+        'Error while fetching published articles: ' + error.message,
+      );
+    }
+  }
+
+  // Récupère un article par son ID parmi les articles publiés - endpoint .../articles/id
+  // ===========================================================================================
+  @Get('published-articles/:id')
+  async getPublishedArticleById(@Param('id') id: ArticleEntity['id']): Promise<{ article: ArticleEntity }> {
+    try {
+      const publishedArticle: ArticleEntity =
+        await this.articlesService.getPublishedArticleById(id);
+      return { article: publishedArticle };
+    } catch (error) {
+      throw new InternalServerErrorException(
+        `Error while fetching published article ${id}: ` + error.message,
+      );
+    }
+  }
+
   // Récupère un article par son ID parmi tous les articles - endpoint .../articles/id
   // ===========================================================================================
   @Get(':id')
@@ -81,12 +113,6 @@ export class ArticlesController {
       );
     }
   }
-
-  // Récupère tous les articles publiés - endpoint .../articles
-  // ===========================================================================================
-
-  // Récupère un article par son ID parmi les articles publiés - endpoint .../articles/id
-  // ===========================================================================================
 
   // Met à jour un article par son ID - endpoint .../articles/id
   // ===========================================================================================

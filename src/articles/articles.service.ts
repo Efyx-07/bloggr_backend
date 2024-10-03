@@ -130,6 +130,38 @@ export class ArticlesService {
     }
   }
 
+  // Récupère tous les articles publiés
+  // ===========================================================================================
+  async getPublishedArticles(): Promise<ArticleEntity[]> {
+    try {
+      const publishedArticles: ArticleEntity[] = await this.articleRepository.find({
+        where: {published: true},
+        relations: ['keywords'],
+      });
+      return publishedArticles;
+    } catch (error) {
+      throw new InternalServerErrorException(
+        'Error while fetching published articles: ' + error.message,
+      );
+    }
+  }
+
+  // Récupère un article publié par son ID
+  // ===========================================================================================
+  async getPublishedArticleById(id: ArticleEntity['id']): Promise<ArticleEntity> {
+    try {
+      const publishedArticle: ArticleEntity = await this.articleRepository.findOne({
+        where: { id, published: true },
+        relations: ['keywords'],
+      });
+      return publishedArticle;
+    } catch (error) {
+      throw new InternalServerErrorException(
+        `Error while fetching article ${id}: ` + error.message,
+      );
+    }
+  }
+
   // Met à jour un article par son ID
   // ===========================================================================================
   async updateArticleById(
