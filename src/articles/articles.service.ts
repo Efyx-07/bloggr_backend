@@ -134,10 +134,11 @@ export class ArticlesService {
   // ===========================================================================================
   async getPublishedArticles(): Promise<ArticleEntity[]> {
     try {
-      const publishedArticles: ArticleEntity[] = await this.articleRepository.find({
-        where: {published: true},
-        relations: ['keywords'],
-      });
+      const publishedArticles: ArticleEntity[] =
+        await this.articleRepository.find({
+          where: { published: true },
+          relations: ['keywords'],
+        });
       return publishedArticles;
     } catch (error) {
       throw new InternalServerErrorException(
@@ -148,12 +149,15 @@ export class ArticlesService {
 
   // Récupère un article publié par son ID
   // ===========================================================================================
-  async getPublishedArticleById(id: ArticleEntity['id']): Promise<ArticleEntity> {
+  async getPublishedArticleById(
+    id: ArticleEntity['id'],
+  ): Promise<ArticleEntity> {
     try {
-      const publishedArticle: ArticleEntity = await this.articleRepository.findOne({
-        where: { id, published: true },
-        relations: ['keywords'],
-      });
+      const publishedArticle: ArticleEntity =
+        await this.articleRepository.findOne({
+          where: { id, published: true },
+          relations: ['keywords'],
+        });
       return publishedArticle;
     } catch (error) {
       throw new InternalServerErrorException(

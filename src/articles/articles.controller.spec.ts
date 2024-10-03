@@ -149,7 +149,7 @@ describe('ArticlesController', () => {
     });
   });
 
-  // Test - getArticle
+  // Test - getArticles
   // ===========================================================================================
   describe('get-articles', () => {
     const keywordEntities: KeywordEntity[] = [
@@ -213,7 +213,6 @@ describe('ArticlesController', () => {
     });
   });
 
-  /*
   // Test - getArticleById
   // ===========================================================================================
   describe('getArticleById', () => {
@@ -228,6 +227,11 @@ describe('ArticlesController', () => {
       body: 'body1',
       creationDate: new Date(),
       lastUpdate: new Date(),
+      published: false,
+      publicationDate: null,
+      publicationUpdate: null,
+      publishedVersion: 1,
+      currentVersion: 1,
       keywords: keywordEntities,
     };
 
@@ -257,6 +261,7 @@ describe('ArticlesController', () => {
     });
   });
 
+  /*
   // Test - updateArticle
   // ===========================================================================================
   describe('update-article', () => {

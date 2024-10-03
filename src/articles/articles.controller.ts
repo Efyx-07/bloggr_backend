@@ -85,7 +85,9 @@ export class ArticlesController {
   // Récupère un article par son ID parmi les articles publiés - endpoint .../articles/id
   // ===========================================================================================
   @Get('published-articles/:id')
-  async getPublishedArticleById(@Param('id') id: ArticleEntity['id']): Promise<{ article: ArticleEntity }> {
+  async getPublishedArticleById(
+    @Param('id') id: ArticleEntity['id'],
+  ): Promise<{ article: ArticleEntity }> {
     try {
       const publishedArticle: ArticleEntity =
         await this.articlesService.getPublishedArticleById(id);
