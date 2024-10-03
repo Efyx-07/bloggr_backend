@@ -38,6 +38,11 @@ export class ArticlesService {
           body: result.body,
           creationDate: result.creationDate,
           lastUpdate: result.lastUpdate,
+          published: result.published,
+          publicationDate: result.publicationDate,
+          publicationUpdate: result.publicationUpdate,
+          publishedVersion: result.publishedVersion,
+          currentVersion: result.currentVersion,
           keywords: result.keywords || [],
         },
       };
