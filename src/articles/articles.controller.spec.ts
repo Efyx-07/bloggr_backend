@@ -120,15 +120,17 @@ describe('ArticlesController', () => {
         keywords: keywordEntities,
       };
 
-      jest.spyOn(articlesService, 'publishArticle').mockResolvedValue({ article: mockPublishedArticle });
+      jest
+        .spyOn(articlesService, 'publishArticle')
+        .mockResolvedValue({ article: mockPublishedArticle });
 
       const result = await articlesController.publishArticle(mockArticleId);
 
       expect(result).toEqual({
         message: 'Article succesfully published',
         article: mockPublishedArticle,
-      })
-    })
+      });
+    });
 
     it('should throw InternalServerErrorException on error', async () => {
       const errorMessage = 'Database error';
@@ -145,7 +147,7 @@ describe('ArticlesController', () => {
         ),
       );
     });
-  })
+  });
 
   // Test - getArticle
   // ===========================================================================================

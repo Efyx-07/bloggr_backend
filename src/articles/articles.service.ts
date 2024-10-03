@@ -1,4 +1,8 @@
-import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ArticleEntity } from '../entities/article.entity';
 import { KeywordEntity } from '../entities/keyword.entity';
@@ -55,14 +59,20 @@ export class ArticlesService {
 
   // Publie un article et le retourne
   // ===========================================================================================
-  async publishArticle(id: ArticleEntity['id']): Promise<{ article: ArticleEntity }> {
+  async publishArticle(
+    id: ArticleEntity['id'],
+  ): Promise<{ article: ArticleEntity }> {
     try {
-      const article: ArticleEntity = await this.articleRepository.findOne({where: {id}});
-      if(!article) throw new NotFoundException ('Article not found');
+      const article: ArticleEntity = await this.articleRepository.findOne({
+        where: { id },
+      });
+      if (!article) throw new NotFoundException('Article not found');
+      // Crée une date pour la publication
+      const currentDate = new Date();
       // Met à jour les champs relatifs à la publication
       article.published = true;
-      article.publicationDate = new Date();
-      article.publicationUpdate = new Date();
+      article.publicationDate = currentDate;
+      article.publicationUpdate = currentDate;
       article.publishedVersion += 1; // Incrémente la version publiée
 
       const result = await this.articleRepository.save(article);

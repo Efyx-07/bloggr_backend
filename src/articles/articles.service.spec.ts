@@ -4,7 +4,10 @@ import { ArticleEntity } from '../entities/article.entity';
 import { ArticleEntriesDTO } from './articles-DTO/article-entries.dto';
 import { Repository } from 'typeorm';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { InternalServerErrorException } from '@nestjs/common';
+import {
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 import { KeywordEntity } from '../entities/keyword.entity';
 import { KeywordDTO } from './articles-DTO/keyword.dto';
 
@@ -149,6 +152,82 @@ describe('ArticlesService', () => {
           `Error while creating article: ${errorMessage}`,
         ),
       );
+    });
+  });
+
+  // Test - publishArticle
+  // ===========================================================================================
+  describe('publishArticle', () => {
+    const mockArticleId: ArticleEntity['id'] = 1;
+
+    const keywordEntities: KeywordEntity[] = [
+      { id: 1, name: 'keyword1' } as KeywordEntity,
+      { id: 2, name: 'keyword2' } as KeywordEntity,
+    ];
+
+    const mockPublishedArticle: ArticleEntity = {
+      id: mockArticleId,
+      title: 'Article 1',
+      imageUrl: 'url1',
+      body: 'body1',
+      creationDate: new Date(),
+      lastUpdate: new Date(),
+      published: false,
+      publicationDate: null,
+      publicationUpdate: null,
+      publishedVersion: 1,
+      currentVersion: 1,
+      keywords: keywordEntities,
+    };
+
+    it('should publish an article and return article details', async () => {
+      // Mock de l'article récupéré
+      (articlesRepository.findOne as jest.Mock).mockResolvedValue(
+        mockPublishedArticle,
+      );
+
+      // Mock de la sauvegarde
+      const publishedArticle = {
+        ...mockPublishedArticle,
+        published: true,
+        publishedVersion: 2,
+        publicationDate: expect.any(Date),
+        publicationUpdate: expect.any(Date),
+      };
+      (articlesRepository.save as jest.Mock).mockResolvedValue(
+        publishedArticle,
+      );
+
+      const result = await articlesService.publishArticle(mockArticleId);
+
+      expect(articlesRepository.findOne).toHaveBeenCalledWith({
+        where: { id: mockArticleId },
+      });
+      expect(articlesRepository.save).toHaveBeenCalledWith(
+        expect.objectContaining({
+          published: true,
+          publishedVersion: 2,
+          publicationDate: expect.any(Date),
+          publicationUpdate: expect.any(Date),
+        }),
+      );
+      expect(result.article).toHaveProperty('published', true);
+      expect(result.article).toHaveProperty('publishedVersion', 2);
+      expect(result.article).toHaveProperty('publicationDate');
+      expect(result.article).toHaveProperty('publicationUpdate');
+    });
+
+    it('should throw InternalServerErrorException on save error', async () => {
+      (articlesRepository.findOne as jest.Mock).mockResolvedValue(
+        mockPublishedArticle,
+      );
+      (articlesRepository.save as jest.Mock).mockRejectedValue(
+        new Error('Database error'),
+      );
+
+      await expect(
+        articlesService.publishArticle(mockArticleId),
+      ).rejects.toThrow(InternalServerErrorException);
     });
   });
 
