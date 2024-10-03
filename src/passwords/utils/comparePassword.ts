@@ -16,9 +16,8 @@ export async function comparePasswords(
       password,
       hashedPassword,
     );
-    if (!isPasswordMatch) {
+    if (!isPasswordMatch)
       throw new UnauthorizedException('Invalid current password');
-    }
   } catch (error) {
     throw new InternalServerErrorException(
       'Error while comparing passwords: ' + error.message,

@@ -47,9 +47,7 @@ export class AdminsService {
     const admin: AdminEntity = await this.adminRepository.findOne({
       where: { email: email },
     });
-    if (!admin) {
-      throw new NotFoundException('User not found');
-    }
+    if (!admin) throw new NotFoundException('User not found');
     return admin;
   }
 
@@ -59,9 +57,7 @@ export class AdminsService {
     const admin: AdminEntity = await this.adminRepository.findOne({
       where: { id: adminId },
     });
-    if (!admin) {
-      throw new NotFoundException('User not found');
-    }
+    if (!admin) throw new NotFoundException('User not found');
     return admin;
   }
 }
