@@ -53,6 +53,10 @@ export class ArticlesService {
     }
   }
 
+  // Publie un article et le retourne
+  // ===========================================================================================
+  async publishArticle(id: ArticleEntity['id']) {}
+
   // Récupère tous les articles
   // ===========================================================================================
   async getArticles(): Promise<ArticleEntity[]> {

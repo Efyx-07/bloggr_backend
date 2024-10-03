@@ -18,7 +18,7 @@ CREATE TABLE articles (
     published BOOLEAN DEFAULT FALSE,
     publication_date TIMESTAMP NULL,
     publication_update TIMESTAMP NULL,
-    published_version INT DEFAULT 1,
+    published_version INT DEFAULT 0,
     current_version INT DEFAULT 1
 );
 

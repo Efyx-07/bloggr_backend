@@ -17,6 +17,7 @@ export class ArticlesController {
   constructor(private readonly articlesService: ArticlesService) {}
 
   // Crée un nouvel article - endpoint .../articles/create-article
+  // A ce stade, l'article est créé mais non publié
   // ===========================================================================================
   @Post('create-article')
   async createArticle(
@@ -33,7 +34,23 @@ export class ArticlesController {
     }
   }
 
-  // Récupère tous les articles - endpoint .../articles
+  // Publie un article existant - endpoint .../articles/publish-article/:id
+  // ===========================================================================================
+  @Post('publish-article/:id')
+  async publishArticle(
+    @Param('id') id: ArticleEntity['id'],
+  ): Promise<{ message: string; article: ArticleEntity }> {
+    try {
+      const { article } = await this.articlesService.publishArticle(id);
+      return { message: 'Article succesfully published', article };
+    } catch (error) {
+      throw new InternalServerErrorException(
+        'Error while publishing article: ' + error.message,
+      );
+    }
+  }
+
+  // Récupère tous les articles sans distinction de statut de publication - endpoint .../articles
   // ===========================================================================================
   @Get()
   async getArticles(): Promise<{ articles: ArticleEntity[] }> {
@@ -48,7 +65,7 @@ export class ArticlesController {
     }
   }
 
-  // Récupère un article par son ID - endpoint .../articles/id
+  // Récupère un article par son ID parmi tous les articles - endpoint .../articles/id
   // ===========================================================================================
   @Get(':id')
   async getArticleById(
@@ -64,6 +81,12 @@ export class ArticlesController {
       );
     }
   }
+
+  // Récupère tous les articles publiés - endpoint .../articles
+  // ===========================================================================================
+
+  // Récupère un article par son ID parmi les articles publiés - endpoint .../articles/id
+  // ===========================================================================================
 
   // Met à jour un article par son ID - endpoint .../articles/id
   // ===========================================================================================

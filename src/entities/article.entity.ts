@@ -59,7 +59,7 @@ export class ArticleEntity {
 
   @Column({
     type: 'int',
-    default: 1,
+    default: 0,
     name: 'published_version',
   })
   publishedVersion: number;
