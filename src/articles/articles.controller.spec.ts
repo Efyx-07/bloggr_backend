@@ -18,6 +18,7 @@ describe('ArticlesController', () => {
           provide: ArticlesService,
           useValue: {
             createArticle: jest.fn(),
+            publishArticle: jest.fn(),
             getArticles: jest.fn(),
             getArticleById: jest.fn(),
             updateArticleById: jest.fn(),
@@ -50,7 +51,7 @@ describe('ArticlesController', () => {
       { id: 2, name: 'keyword2' } as KeywordEntity,
     ];
 
-    it('should return a success message and article details', async () => {
+    it('should create an article and return a success message and article details', async () => {
       const mockArticle: ArticleEntity = {
         id: 1,
         title: articleEntriesDTO.title,
@@ -94,6 +95,57 @@ describe('ArticlesController', () => {
       );
     });
   });
+
+  // Test - publishArticle
+  // ===========================================================================================
+  describe('publishArticle', () => {
+    const mockArticleId: ArticleEntity['id'] = 1;
+    const keywordEntities: KeywordEntity[] = [
+      { id: 1, name: 'keyword1' } as KeywordEntity,
+      { id: 2, name: 'keyword2' } as KeywordEntity,
+    ];
+    it('should publish an article and return a success message and article details', async () => {
+      const mockPublishedArticle: ArticleEntity = {
+        id: mockArticleId,
+        title: 'Article 1',
+        imageUrl: 'url1',
+        body: 'body1',
+        creationDate: new Date(),
+        lastUpdate: new Date(),
+        published: false,
+        publicationDate: null,
+        publicationUpdate: null,
+        publishedVersion: 1,
+        currentVersion: 1,
+        keywords: keywordEntities,
+      };
+
+      jest.spyOn(articlesService, 'publishArticle').mockResolvedValue({ article: mockPublishedArticle });
+
+      const result = await articlesController.publishArticle(mockArticleId);
+
+      expect(result).toEqual({
+        message: 'Article succesfully published',
+        article: mockPublishedArticle,
+      })
+    })
+
+    it('should throw InternalServerErrorException on error', async () => {
+      const errorMessage = 'Database error';
+
+      jest
+        .spyOn(articlesService, 'publishArticle')
+        .mockRejectedValue(new Error(errorMessage));
+
+      await expect(
+        articlesController.publishArticle(mockArticleId),
+      ).rejects.toThrow(
+        new InternalServerErrorException(
+          `Error while publishing article: ${errorMessage}`,
+        ),
+      );
+    });
+  })
 
   // Test - getArticle
   // ===========================================================================================
