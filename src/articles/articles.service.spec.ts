@@ -154,7 +154,7 @@ describe('ArticlesService', () => {
 
   // Test - getArticles
   // ===========================================================================================
-  /*describe('getArticles', () => {
+  describe('getArticles', () => {
     const keywordEntities: KeywordEntity[] = [
       { id: 1, name: 'keyword1' } as KeywordEntity,
       { id: 2, name: 'keyword2' } as KeywordEntity,
@@ -169,6 +169,11 @@ describe('ArticlesService', () => {
           body: 'body1',
           creationDate: new Date('2024-08-30T12:00:00Z'),
           lastUpdate: new Date('2024-08-30T12:00:00Z'),
+          published: false,
+          publicationDate: null,
+          publicationUpdate: null,
+          publishedVersion: 1,
+          currentVersion: 1,
           keywords: keywordEntities,
         },
         {
@@ -178,6 +183,11 @@ describe('ArticlesService', () => {
           body: 'body2',
           creationDate: new Date('2024-08-30T12:00:00Z'),
           lastUpdate: new Date('2024-08-30T12:00:00Z'),
+          published: false,
+          publicationDate: null,
+          publicationUpdate: null,
+          publishedVersion: 1,
+          currentVersion: 1,
           keywords: keywordEntities,
         },
       ];
@@ -203,6 +213,7 @@ describe('ArticlesService', () => {
     });
   });
 
+  /*
   // Test - getArticleById
   // ===========================================================================================
   describe('getArticleById', () => {

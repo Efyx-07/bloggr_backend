@@ -138,7 +138,7 @@ export class ArticlesService {
     keywords: KeywordDTO[],
   ): Promise<KeywordEntity[]> {
     try {
-      // Vérifie la présence du keyword dans keywords 
+      // Vérifie la présence du keyword dans keywords
       if (keywords && keywords.length > 0) {
         const keywordEntities = await Promise.all(
           keywords.map(async (keywordDTO: KeywordDTO) => {

@@ -97,7 +97,7 @@ describe('ArticlesController', () => {
 
   // Test - getArticle
   // ===========================================================================================
- /* describe('get-articles', () => {
+  describe('get-articles', () => {
     const keywordEntities: KeywordEntity[] = [
       { id: 1, name: 'keyword1' } as KeywordEntity,
       { id: 2, name: 'keyword2' } as KeywordEntity,
@@ -112,6 +112,11 @@ describe('ArticlesController', () => {
             body: 'body1',
             creationDate: new Date(),
             lastUpdate: new Date(),
+            published: false,
+            publicationDate: null,
+            publicationUpdate: null,
+            publishedVersion: 1,
+            currentVersion: 1,
             keywords: keywordEntities,
           },
           {
@@ -121,6 +126,11 @@ describe('ArticlesController', () => {
             body: 'body2',
             creationDate: new Date(),
             lastUpdate: new Date(),
+            published: false,
+            publicationDate: null,
+            publicationUpdate: null,
+            publishedVersion: 1,
+            currentVersion: 1,
             keywords: keywordEntities,
           },
         ],
@@ -149,6 +159,7 @@ describe('ArticlesController', () => {
     });
   });
 
+  /*
   // Test - getArticleById
   // ===========================================================================================
   describe('getArticleById', () => {

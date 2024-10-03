@@ -60,14 +60,14 @@ export class ArticleEntity {
   @Column({
     type: 'int',
     default: 1,
-    name:'published_version'
+    name: 'published_version',
   })
   publishedVersion: number;
 
   @Column({
     type: 'int',
     default: 1,
-    name:'current_version'
+    name: 'current_version',
   })
   currentVersion: number;
 
