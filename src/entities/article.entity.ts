@@ -50,27 +50,6 @@ export class ArticleEntity {
   })
   publicationDate: Date;
 
-  @Column({
-    type: 'timestamp',
-    name: 'publication_update',
-    nullable: true,
-  })
-  publicationUpdate: Date;
-
-  @Column({
-    type: 'int',
-    default: 0,
-    name: 'published_version',
-  })
-  publishedVersion: number;
-
-  @Column({
-    type: 'int',
-    default: 1,
-    name: 'current_version',
-  })
-  currentVersion: number;
-
   @ManyToMany(() => KeywordEntity, (keyword) => keyword.articles)
   @JoinTable({
     name: 'article_keywords',

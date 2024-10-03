@@ -16,10 +16,7 @@ CREATE TABLE articles (
     creation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     last_update TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     published BOOLEAN DEFAULT FALSE,
-    publication_date TIMESTAMP NULL,
-    publication_update TIMESTAMP NULL,
-    published_version INT DEFAULT 0,
-    current_version INT DEFAULT 1
+    publication_date TIMESTAMP NULL
 );
 
 CREATE TABLE keywords (

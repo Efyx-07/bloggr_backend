@@ -63,9 +63,6 @@ describe('ArticlesController', () => {
         lastUpdate: new Date(),
         published: false,
         publicationDate: null,
-        publicationUpdate: null,
-        publishedVersion: 1,
-        currentVersion: 1,
         keywords: keywordEntities,
       };
 
@@ -116,9 +113,6 @@ describe('ArticlesController', () => {
         lastUpdate: new Date(),
         published: false,
         publicationDate: null,
-        publicationUpdate: null,
-        publishedVersion: 1,
-        currentVersion: 1,
         keywords: keywordEntities,
       };
 
@@ -170,9 +164,6 @@ describe('ArticlesController', () => {
             lastUpdate: new Date(),
             published: false,
             publicationDate: null,
-            publicationUpdate: null,
-            publishedVersion: 1,
-            currentVersion: 1,
             keywords: keywordEntities,
           },
           {
@@ -184,9 +175,6 @@ describe('ArticlesController', () => {
             lastUpdate: new Date(),
             published: false,
             publicationDate: null,
-            publicationUpdate: null,
-            publishedVersion: 1,
-            currentVersion: 1,
             keywords: keywordEntities,
           },
         ],
@@ -231,9 +219,6 @@ describe('ArticlesController', () => {
       lastUpdate: new Date(),
       published: false,
       publicationDate: null,
-      publicationUpdate: null,
-      publishedVersion: 1,
-      currentVersion: 1,
       keywords: keywordEntities,
     };
 
@@ -282,9 +267,6 @@ describe('ArticlesController', () => {
             lastUpdate: new Date(),
             published: true,
             publicationDate: expect.any(Date),
-            publicationUpdate: expect.any(Date),
-            publishedVersion: 1,
-            currentVersion: 1,
             keywords: keywordEntities,
           },
           {
@@ -296,9 +278,6 @@ describe('ArticlesController', () => {
             lastUpdate: new Date(),
             published: false,
             publicationDate: expect.any(Date),
-            publicationUpdate: expect.any(Date),
-            publishedVersion: 1,
-            currentVersion: 1,
             keywords: keywordEntities,
           },
         ],
@@ -343,9 +322,6 @@ describe('ArticlesController', () => {
       lastUpdate: new Date(),
       published: true,
       publicationDate: expect.any(Date),
-      publicationUpdate: expect.any(Date),
-      publishedVersion: 1,
-      currentVersion: 1,
       keywords: keywordEntities,
     };
 

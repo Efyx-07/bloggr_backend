@@ -44,9 +44,6 @@ export class ArticlesService {
           lastUpdate: result.lastUpdate,
           published: result.published,
           publicationDate: result.publicationDate,
-          publicationUpdate: result.publicationUpdate,
-          publishedVersion: result.publishedVersion,
-          currentVersion: result.currentVersion,
           keywords: result.keywords || [],
         },
       };
@@ -72,8 +69,6 @@ export class ArticlesService {
       // Met à jour les champs relatifs à la publication
       article.published = true;
       article.publicationDate = currentDate;
-      article.publicationUpdate = currentDate;
-      article.publishedVersion += 1; // Incrémente la version publiée
 
       const result = await this.articleRepository.save(article);
       return {
@@ -86,9 +81,6 @@ export class ArticlesService {
           lastUpdate: result.lastUpdate,
           published: result.published,
           publicationDate: result.publicationDate,
-          publicationUpdate: result.publicationUpdate,
-          publishedVersion: result.publishedVersion,
-          currentVersion: result.currentVersion,
           keywords: result.keywords || [],
         },
       };

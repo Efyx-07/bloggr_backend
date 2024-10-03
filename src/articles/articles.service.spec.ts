@@ -76,9 +76,6 @@ describe('ArticlesService', () => {
       lastUpdate: new Date(),
       published: false,
       publicationDate: null,
-      publicationUpdate: null,
-      publishedVersion: 1,
-      currentVersion: 1,
       keywords: keywordEntities,
     };
 
@@ -125,9 +122,6 @@ describe('ArticlesService', () => {
           lastUpdate: mockArticle.lastUpdate,
           published: mockArticle.published,
           publicationDate: mockArticle.publicationDate,
-          publicationUpdate: mockArticle.publicationUpdate,
-          publishedVersion: mockArticle.publishedVersion,
-          currentVersion: mockArticle.currentVersion,
           keywords: mockArticle.keywords,
         },
       });
@@ -171,9 +165,6 @@ describe('ArticlesService', () => {
       lastUpdate: new Date(),
       published: false,
       publicationDate: null,
-      publicationUpdate: null,
-      publishedVersion: 1,
-      currentVersion: 1,
       keywords: keywordEntities,
     };
 
@@ -187,9 +178,7 @@ describe('ArticlesService', () => {
       const publishedArticle = {
         ...mockPublishedArticle,
         published: true,
-        publishedVersion: 2,
         publicationDate: expect.any(Date),
-        publicationUpdate: expect.any(Date),
       };
       (articlesRepository.save as jest.Mock).mockResolvedValue(
         publishedArticle,
@@ -203,15 +192,11 @@ describe('ArticlesService', () => {
       expect(articlesRepository.save).toHaveBeenCalledWith(
         expect.objectContaining({
           published: true,
-          publishedVersion: 2,
           publicationDate: expect.any(Date),
-          publicationUpdate: expect.any(Date),
         }),
       );
       expect(result.article).toHaveProperty('published', true);
-      expect(result.article).toHaveProperty('publishedVersion', 2);
       expect(result.article).toHaveProperty('publicationDate');
-      expect(result.article).toHaveProperty('publicationUpdate');
     });
 
     it('should throw InternalServerErrorException on save error', async () => {
@@ -247,9 +232,6 @@ describe('ArticlesService', () => {
           lastUpdate: new Date('2024-08-30T12:00:00Z'),
           published: false,
           publicationDate: null,
-          publicationUpdate: null,
-          publishedVersion: 1,
-          currentVersion: 1,
           keywords: keywordEntities,
         },
         {
@@ -261,9 +243,6 @@ describe('ArticlesService', () => {
           lastUpdate: new Date('2024-08-30T12:00:00Z'),
           published: false,
           publicationDate: null,
-          publicationUpdate: null,
-          publishedVersion: 1,
-          currentVersion: 1,
           keywords: keywordEntities,
         },
       ];
@@ -289,7 +268,6 @@ describe('ArticlesService', () => {
     });
   });
 
-  /*
   // Test - getArticleById
   // ===========================================================================================
   describe('getArticleById', () => {
@@ -304,6 +282,8 @@ describe('ArticlesService', () => {
       body: 'body1',
       creationDate: new Date(),
       lastUpdate: new Date(),
+      published: false,
+      publicationDate: null,
       keywords: keywordEntities,
     };
 
@@ -328,6 +308,8 @@ describe('ArticlesService', () => {
       );
     });
   });
+
+  /*
 
   // Test - updateArticleById
   // ===========================================================================================
