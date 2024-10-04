@@ -23,9 +23,7 @@ export class PasswordsService {
     const { adminId, currentPassword, newPassword } = updatePasswordDto;
 
     const admin: AdminEntity = await this.adminsService.findAdminById(adminId);
-
     await comparePasswords(currentPassword, admin.password);
-
     const hashedNewPassword: string = await hashPassword(newPassword);
 
     try {
