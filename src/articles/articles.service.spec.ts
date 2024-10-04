@@ -146,17 +146,19 @@ describe('ArticlesService', () => {
     });
   });
 
-  // Test - publishArticle
+  // Test - updateArticlePublishedStatus
   // ===========================================================================================
-  describe('publishArticle', () => {
-    const mockArticleId: ArticleEntity['id'] = 1;
-
+  describe('updateArticlePublishedStatus', () => {
     const keywordEntities: KeywordEntity[] = [
       { id: 1, name: 'keyword1' } as KeywordEntity,
       { id: 2, name: 'keyword2' } as KeywordEntity,
     ];
 
-    const mockPublishedArticle: ArticleEntity = {
+    const mockArticleId = 1;
+    const mockPublishedStatus = true;
+    const mockUnpublishedStatus = false;
+
+    const mockArticle: ArticleEntity = {
       id: mockArticleId,
       title: 'Article 1',
       imageUrl: 'url1',
@@ -168,48 +170,63 @@ describe('ArticlesService', () => {
       keywords: keywordEntities,
     };
 
-    it('should publish an article and return article details', async () => {
-      // Mock de l'article récupéré
-      (articlesRepository.findOne as jest.Mock).mockResolvedValue(
-        mockPublishedArticle,
-      );
+    it('should publish the article if not already published', async () => {
+      (articlesRepository.findOne as jest.Mock).mockResolvedValue(mockArticle);
+      const updateSpy = jest
+        .spyOn(articlesRepository, 'update')
+        .mockResolvedValueOnce({} as any);
 
-      // Mock de la sauvegarde
-      const publishedArticle = {
-        ...mockPublishedArticle,
-        published: true,
-        publicationDate: expect.any(Date),
-      };
-      (articlesRepository.save as jest.Mock).mockResolvedValue(
-        publishedArticle,
+      const result = await articlesService.updateArticlePublishedStatus(
+        mockArticleId,
+        mockPublishedStatus,
       );
-
-      const result = await articlesService.publishArticle(mockArticleId);
 
       expect(articlesRepository.findOne).toHaveBeenCalledWith({
         where: { id: mockArticleId },
       });
-      expect(articlesRepository.save).toHaveBeenCalledWith(
-        expect.objectContaining({
-          published: true,
-          publicationDate: expect.any(Date),
-        }),
-      );
-      expect(result.article).toHaveProperty('published', true);
-      expect(result.article).toHaveProperty('publicationDate');
+      expect(updateSpy).toHaveBeenCalledWith(mockArticleId, {
+        published: true,
+        publicationDate: expect.any(Date),
+      });
+      expect(result).toEqual({ message: 'Article published' });
     });
 
-    it('should throw InternalServerErrorException on save error', async () => {
-      (articlesRepository.findOne as jest.Mock).mockResolvedValue(
-        mockPublishedArticle,
+    it('should unpublish the article if already published', async () => {
+      (articlesRepository.findOne as jest.Mock).mockResolvedValue(mockArticle);
+      const updateSpy = jest
+        .spyOn(articlesRepository, 'update')
+        .mockResolvedValueOnce({} as any);
+
+      const result = await articlesService.updateArticlePublishedStatus(
+        mockArticleId,
+        mockUnpublishedStatus,
       );
-      (articlesRepository.save as jest.Mock).mockRejectedValue(
-        new Error('Database error'),
+
+      expect(articlesRepository.findOne).toHaveBeenCalledWith({
+        where: { id: mockArticleId },
+      });
+      expect(updateSpy).toHaveBeenCalledWith(mockArticleId, {
+        published: false,
+      });
+      expect(result).toEqual({ message: 'Article unpublished' });
+    });
+
+    it('should throw InternalServerErrorException if repository throws an error', async () => {
+      const errorMessage = 'Some error';
+      (articlesRepository.findOne as jest.Mock).mockRejectedValue(
+        new Error(errorMessage),
       );
 
       await expect(
-        articlesService.publishArticle(mockArticleId),
-      ).rejects.toThrow(InternalServerErrorException);
+        articlesService.updateArticlePublishedStatus(
+          mockArticleId,
+          mockPublishedStatus,
+        ),
+      ).rejects.toThrow(
+        new InternalServerErrorException(
+          'Error while changing article published status: ' + errorMessage,
+        ),
+      );
     });
   });
 
