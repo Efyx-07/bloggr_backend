@@ -34,22 +34,26 @@ export class ArticlesController {
     }
   }
 
-  // Publie un article existant - endpoint .../articles/publish-article/:id
+  // Publie / dépublie un article existant - endpoint .../articles/publish-article/:id
   // ===========================================================================================
-  @Post('publish-article/:id')
-  async publishArticle(
+  @Put('publish-article/:id')
+  async updateArticlePublishedStatus(
     @Param('id') id: ArticleEntity['id'],
-  ): Promise<{ message: string; article: ArticleEntity }> {
+    @Body('published') published: ArticleEntity['published'],
+  ): Promise<{ message: string }> {
     try {
-      const { article } = await this.articlesService.publishArticle(id);
-      return { message: 'Article succesfully published', article };
+      await this.articlesService.updateArticlePublishedStatus(id, published);
+      return {
+        message: published ? 'Article published' : 'Article unpublished',
+      };
     } catch (error) {
       throw new InternalServerErrorException(
-        'Error while publishing article: ' + error.message,
+        'Error while changing article published status: ' + error.message,
       );
     }
   }
 
+  // !! Route pour l'API de tous les articles à utiliser dans le dashboard
   // Récupère tous les articles sans distinction de statut de publication - endpoint .../articles
   // ===========================================================================================
   @Get()

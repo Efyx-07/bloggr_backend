@@ -91,6 +91,37 @@ export class ArticlesService {
     }
   }
 
+  // Modifie le statut de publication de l'article (par défaut false). Permet sa publication / dépublication
+  // ===========================================================================================
+  async updateArticlePublishedStatus(
+    id: ArticleEntity['id'],
+    published: ArticleEntity['published'],
+  ): Promise<{ message: string }> {
+    try {
+      const article: ArticleEntity = await this.articleRepository.findOne({
+        where: { id },
+      });
+      if (!article) throw new NotFoundException('Article not found');
+      // A la 1ère publication de l'article, initialise la date de publication (qui ne pourra plus être modifiée)
+      if (published && !article.published) {
+        await this.articleRepository.update(id, {
+          published: true,
+          publicationDate: new Date(),
+        });
+      } else {
+        // Sinon ne modifie que le statut de publication true ou false
+        await this.articleRepository.update(id, { published });
+      }
+      return {
+        message: published ? 'Article published' : 'Article unpublished',
+      };
+    } catch (error) {
+      throw new InternalServerErrorException(
+        'Error while changing article published status: ' + error.message,
+      );
+    }
+  }
+
   // Récupère tous les articles
   // ===========================================================================================
   async getArticles(): Promise<ArticleEntity[]> {

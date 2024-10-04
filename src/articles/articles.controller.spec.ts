@@ -19,6 +19,7 @@ describe('ArticlesController', () => {
           useValue: {
             createArticle: jest.fn(),
             publishArticle: jest.fn(),
+            updateArticlePublishedStatus: jest.fn(),
             getArticles: jest.fn(),
             getArticleById: jest.fn(),
             getPublishedArticles: jest.fn(),
@@ -95,51 +96,48 @@ describe('ArticlesController', () => {
     });
   });
 
-  // Test - publishArticle
+  // Test - updateArticlePublishedStatus
   // ===========================================================================================
-  describe('publishArticle', () => {
+  describe('updateArticlePublishedStatus', () => {
     const mockArticleId: ArticleEntity['id'] = 1;
-    const keywordEntities: KeywordEntity[] = [
-      { id: 1, name: 'keyword1' } as KeywordEntity,
-      { id: 2, name: 'keyword2' } as KeywordEntity,
-    ];
-    it('should publish an article and return a success message and article details', async () => {
-      const mockPublishedArticle: ArticleEntity = {
-        id: mockArticleId,
-        title: 'Article 1',
-        imageUrl: 'url1',
-        body: 'body1',
-        creationDate: new Date(),
-        lastUpdate: new Date(),
-        published: false,
-        publicationDate: null,
-        keywords: keywordEntities,
-      };
+    const mockPublishedStatus: ArticleEntity['published'] = true;
+    const mockUnpublishedStatus: ArticleEntity['published'] = false;
 
-      jest
-        .spyOn(articlesService, 'publishArticle')
-        .mockResolvedValue({ article: mockPublishedArticle });
-
-      const result = await articlesController.publishArticle(mockArticleId);
-
-      expect(result).toEqual({
-        message: 'Article succesfully published',
-        article: mockPublishedArticle,
-      });
+    it('should update the published status and send a success message when article is published', async () => {
+      (
+        articlesService.updateArticlePublishedStatus as jest.Mock
+      ).mockResolvedValueOnce({});
+      const result = await articlesController.updateArticlePublishedStatus(
+        mockArticleId,
+        mockPublishedStatus,
+      );
+      expect(result).toEqual({ message: 'Article published' });
     });
 
-    it('should throw InternalServerErrorException on error', async () => {
-      const errorMessage = 'Database error';
+    it('should update the published status and send a success message when article is unpublished', async () => {
+      (
+        articlesService.updateArticlePublishedStatus as jest.Mock
+      ).mockResolvedValueOnce({});
+      const result = await articlesController.updateArticlePublishedStatus(
+        mockArticleId,
+        mockUnpublishedStatus,
+      );
+      expect(result).toEqual({ message: 'Article unpublished' });
+    });
 
-      jest
-        .spyOn(articlesService, 'publishArticle')
-        .mockRejectedValue(new Error(errorMessage));
-
+    it('should throw an InternalServerErrorException if service fails', async () => {
+      const errorMessage = 'Service error';
+      (
+        articlesService.updateArticlePublishedStatus as jest.Mock
+      ).mockRejectedValueOnce(new Error(errorMessage));
       await expect(
-        articlesController.publishArticle(mockArticleId),
+        articlesController.updateArticlePublishedStatus(
+          mockArticleId,
+          mockPublishedStatus,
+        ),
       ).rejects.toThrow(
         new InternalServerErrorException(
-          `Error while publishing article: ${errorMessage}`,
+          'Error while changing article published status: ' + errorMessage,
         ),
       );
     });
