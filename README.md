@@ -10,6 +10,24 @@
 
 Cette application permet à un utilisateur de créer et gérer ses articles de blog. Le but est de générer une API avec la liste des articles qui pourront être affichés sur un site externe (par exemple un site vitrine).
 
+## Fonctionnalités
+
+- **Connexion et authentification** : L'application n'autorise qu'un seul utilisateur dont les données seront préalablement renseignées dans la base de données par l'administrateur. Possibilité de modifier le mot de passe via l'application.
+- **Création d'un article** : Création d'un article avec les champs 'Titre', 'Image de couverture', 'Corps de l'article' et 'Mots-clé'.
+- **Modification d'un article** : Chaque donnée peut être modifiée et mise à jour.
+- **Publication controlée** : Un article nouvellement créé a un statut "En attente de publication". Pour être "Publié", l'utilisateur devra le publier manuellement après contrôle. L'API à récupérer sur un site tierce ne concernera que les articles publiés (voir section Endpoints).
+
+## Technologies utilisées
+
+- **Node.js / Nest.js**
+- **Typescript**
+- **Typeorm**: Pour l'interface entre le backend et la base de données MySQL
+- **Class-validator**: Pour la gestion des DTOs
+
+## Base de données
+
+Ce backend communique avec une base de données relationnelle MySQL à mettre en place préalablement. La structure est fournie [ici](https://github.com/Efyx-07/bloggr_backend/blob/publication/bloggr.db.sql)
+
 ## Installation
 
 ```bash
