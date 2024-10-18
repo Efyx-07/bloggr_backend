@@ -100,7 +100,7 @@ L'authenfication fonctionne avec JWT. Vous aurez besoin de définir une clé sec
     $ npm run start:prod
     ```
 
-## Test
+## Tests
 
 Des tests unitaires ont été écrits pour assurer le bon fonctionnement des fonctionnalités critiques de l’application. Pour les exécuter, utilisez la commande suivante
 
