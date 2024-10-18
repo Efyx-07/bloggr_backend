@@ -46,20 +46,20 @@ $ npm run test:cov
 ### Admin / Password
 | **Method** | **URL**                      | **Description**       |
 |------------|------------------------------|-----------------------|
-| POST       | /admins/login                | Login                 |
-| PUT        | /passwords/update-password   | Update password       |
+| POST       | /admins/login                | Connexion             |
+| PUT        | /passwords/update-password   | Mise à jour du mot de passe|
 
 ### Articles
 | **Method** | **URL**                      | **Description**                      |
 |------------|------------------------------|--------------------------------------|
-| POST       | /articles/create-article     | Create an article                    |
-| PUT        | /articles/publish-article/:id| Change an article published status   |
-| GET        | /articles                    | Get all the articles                 |
-| GET        | /articles/published-articles | Get only published articles (use it in the external website)|
-| GET        | /articles/published-articles/:id | return a published article by id (use it in the external website)|
-| GET        | /articles/:id                | Get an article by id among all the articles|
-| PUT        | /articles/:id                | update an article                    |
-| DELETE     | /articles/:id                | delete an article                    |
+| POST       | /articles/create-article     | Créer un article                     |
+| PUT        | /articles/publish-article/:id| Change le statut de publication      |
+| GET        | /articles                    | Retourne tous les articles créés     |
+| GET        | /articles/published-articles | Ne retourne que les articles publiés (API à utiliser dans le site externe)|
+| GET        | /articles/published-articles/:id | Retourne un article publié par son ID (API à utiliser dans le site externe)|
+| GET        | /articles/:id                | Retourne un article par son ID parmi tous les articles|
+| PUT        | /articles/:id                | Met à jour article                    |
+| DELETE     | /articles/:id                | Supprime un article                   |
 
 
 ## Support
