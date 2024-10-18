@@ -57,6 +57,26 @@ $ npm run test:e2e
 # test coverage
 $ npm run test:cov
 ```
+## Endpoints
+
+### Admin / Password
+| **Method** | **URL**                      | **Description**       |
+|------------|------------------------------|-----------------------|
+| POST       | /admins/login                | Login                 |
+| PUT        | /passwords/update-password   | Update password       |
+
+### Articles
+| **Method** | **URL**                      | **Description**                      |
+|------------|------------------------------|--------------------------------------|
+| POST       | /articles/create-article     | Create an article                    |
+| PUT        | /articles/publish-article/:id| Change an article published status   |
+| GET        | /articles                    | Get all the articles                 |
+| GET        | /articles/published-articles | Get only published articles (use it in the external website)|
+| GET        | /articles/published-articles/:id | return a published article by id (use it in the external website)|
+| GET        | /articles/:id                | Get an article by id among all the articles|
+| PUT        | /articles/:id                | update an article                    |
+| DELETE     | /articles/:id                | delete an article                    |
+
 
 ## Support
 
