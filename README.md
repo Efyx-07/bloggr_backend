@@ -20,9 +20,12 @@ Cette application permet à un utilisateur de créer et gérer ses articles de b
 ## Technologies utilisées
 
 - **Node.js / Nest.js**
-- **Typescript**
+- **Typescript**: Pour le typage des données
 - **Typeorm**: Pour l'interface entre le backend et la base de données MySQL
 - **Class-validator**: Pour la gestion des DTOs
+- **JWT**: Pour la génération des tokens d'authentification
+- **Bcrypt**: Pour le cryptage des mot de passe
+- **Jest**: Pour les tests unitaires
 
 ## Configuration
 
@@ -99,6 +102,8 @@ L'authenfication fonctionne avec JWT. Vous aurez besoin de définir une clé sec
 
 ## Test
 
+Des tests unitaires ont été écrits pour assurer le bon fonctionnement des fonctionnalités critiques de l’application. Pour les exécuter, utilisez la commande suivante
+
 ```bash
 # unit tests
 $ npm run test
@@ -130,16 +135,18 @@ $ npm run test:cov
 | DELETE     | /articles/:id                | Supprime un article                   |
 
 
-## Support
+## Utilisation
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+### Interface
 
-## Stay in touch
+Ce dépôt ne concerne que la partie backend de l'application. Celle-ci fonctionne avec une interface créée en NextJs.  
+ <a href="https://github.com/Efyx-07/bloggr_frontend">Accéder au dépôt du frontend</a>
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+### Utilisation dans une application tierce
 
-## License
+L'objectif final de cette application est de récupérer l'API des articles avec le statut "publié" pour les afficher dans une application tierce (par exemple un site vitrine).
+Pour avoir le contrôle sur les articles à afficher, il est important de n'y utiliser que les endpoints concernant "published-articles", décrits dans la section "Endpoints".
 
-Nest is [MIT licensed](LICENSE).
+**Bonne découverte !**
+
+FX.
