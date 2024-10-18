@@ -24,9 +24,39 @@ Cette application permet à un utilisateur de créer et gérer ses articles de b
 - **Typeorm**: Pour l'interface entre le backend et la base de données MySQL
 - **Class-validator**: Pour la gestion des DTOs
 
-## Base de données
+## Configuration
+
+### Base de données
 
 Ce backend communique avec une base de données relationnelle MySQL à mettre en place préalablement. La structure est fournie [ici](https://github.com/Efyx-07/bloggr_backend/blob/publication/bloggr.db.sql)
+
+1. Créez un fichier `.env` à la racine du projet et renseignez les données suivantes :
+   ```plaintext
+    DB_HOSTNAME=yourhostname
+    DB_USERNAME=yourusername
+    DB_PASSWORD=yourdbpassword
+    DB_NAME=yourdbname
+    PORT=port
+   ```
+2. Assurez-vous que votre fichier `.env` est ignoré par Git. Le fichier .gitignore doit inclure .env pour éviter que la clé ne soit exposée publiquement.
+
+### Initialisation de l'administrateur
+
+L'application étant réservée à un seul administrateur, celui-ci doit être initialisé en base de donnée.
+
+1. Dans le fichier `.env` à la racine du projet, renseignez les données suivantes :
+   ```plaintext
+    ADMIN_LASTNAME=adminlastname
+    ADMIN_FIRSTNAME=adminfirstname
+    ADMIN_EMAIL=adminemail
+    ADMIN_PASSWORD=adminpassword
+   ```
+2. Assurez-vous que votre fichier `.env` est ignoré par Git. Le fichier .gitignore doit inclure .env pour éviter que la clé ne soit exposée publiquement.
+
+3. Pour initialiser l'administrateur, lancez le script de setup avec cette commande: 
+```bash
+$ npx ts-node initAdmin.ts
+```
 
 ## Installation
 
