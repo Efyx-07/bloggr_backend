@@ -58,6 +58,17 @@ L'application étant réservée à un seul administrateur, celui-ci doit être i
 $ npx ts-node initAdmin.ts
 ```
 
+### Authentification
+
+L'authenfication fonctionne avec JWT. Vous aurez besoin de définir une clé secrète et un temps d'expiration.
+
+1. Dans le fichier `.env` à la racine du projet, renseignez les données suivantes :
+   ```plaintext
+    AUTH_SECRETKEY=secretkey
+    AUTH_EXPIRESIN=expiresin
+   ```
+2. Assurez-vous que votre fichier `.env` est ignoré par Git. Le fichier .gitignore doit inclure .env pour éviter que la clé ne soit exposée publiquement.
+
 ## Installation
 
 ```bash
