@@ -69,24 +69,33 @@ L'authenfication fonctionne avec JWT. Vous aurez besoin de définir une clé sec
    ```
 2. Assurez-vous que votre fichier `.env` est ignoré par Git. Le fichier .gitignore doit inclure .env pour éviter que la clé ne soit exposée publiquement.
 
+
 ## Installation
 
-```bash
-$ npm install
-```
+1. Clonez le dépôt:
+   ```plaintext
+   git clone https://github.com/Efyx-07/bloggr_backend.git
+   ```
+2. Accédez au projet:
+   ```plaintext
+   cd bloggr_backend
+   ```
+3. Installez les dépendances:
+   ```plaintext
+   $ npm install
+   ```
+4. Configurez votre backend avec le fichier `.env` comme décrit dans la section Configuration.
+5. Lancez le serveur de développement:
+   ```bash
+    # development
+    $ npm run start
 
-## Running the app
+    # watch mode
+    $ npm run start:dev
 
-```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
-```
+    # production mode
+    $ npm run start:prod
+    ```
 
 ## Test
 
