@@ -24,7 +24,7 @@ Cette application permet à un utilisateur de créer et gérer ses articles de b
 - **Typeorm**: Pour l'interface entre le backend et la base de données MySQL
 - **Class-validator**: Pour la gestion des DTOs
 - **JWT**: Pour la génération des tokens d'authentification
-- **Bcrypt**: Pour le cryptage des mot de passe
+- **Bcrypt**: Pour le cryptage des mots de passe
 - **Jest**: Pour les tests unitaires
 
 ## Configuration
@@ -128,7 +128,7 @@ $ npm run test:cov
 | GET        | /articles/published-articles | Ne retourne que les articles publiés (API à utiliser dans le site externe)|
 | GET        | /articles/published-articles/:id | Retourne un article publié par son ID (API à utiliser dans le site externe)|
 | GET        | /articles/:id                | Retourne un article par son ID parmi tous les articles|
-| PUT        | /articles/:id                | Met à jour article                    |
+| PUT        | /articles/:id                | Met à jour un article                 |
 | DELETE     | /articles/:id                | Supprime un article                   |
 
 
